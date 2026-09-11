@@ -1,16 +1,10 @@
-# Compiled class file
+# ==========================================
+# 1. Java & Build Tools (Maven / Gradle)
+# ==========================================
 *.class
-
-# Log file
 *.log
-
-# BlueJ files
 *.ctxt
-
-# Mobile Tools for Java (J2ME)
 .mtj.tmp/
-
-# Package Files #
 *.jar
 *.war
 *.nar
@@ -19,6 +13,64 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Gradle
+.gradle/
+build/
+
+# ==========================================
+# 2. Frontend / Node.js (POS Web App, KDS)
+# ==========================================
+node_modules/
+dist/
+build/
+.npm
+.yarn/
+*.log*
+
+# ==========================================
+# 3. Environment & Security (Bảo mật cấu hình)
+# ==========================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ==========================================
+# 4. IDEs & Editors (Môi trường làm việc cá nhân)
+# ==========================================
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+
+# Visual Studio Code
+.vscode/
+
+# ==========================================
+# 5. OS Generated Files (Hệ điều hành)
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
