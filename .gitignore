@@ -36,7 +36,7 @@ build/
 *.log*
 
 # ==========================================
-# 3. Environment & Security (Bảo mật cấu hình)
+# 3. Environment & Security
 # ==========================================
 .env
 .env.local
@@ -45,7 +45,7 @@ build/
 .env.production.local
 
 # ==========================================
-# 4. IDEs & Editors (Môi trường làm việc cá nhân)
+# 4. IDEs & Editors
 # ==========================================
 # IntelliJ IDEA
 .idea/
@@ -65,7 +65,7 @@ out/
 .vscode/
 
 # ==========================================
-# 5. OS Generated Files (Hệ điều hành)
+# 5. OS Generated Files
 # ==========================================
 .DS_Store
 .DS_Store?
