@@ -5,18 +5,13 @@
 > **Mô hình kiến trúc:** Phân tầng MVC (Model - View - Controller)
 
 ---
-
-## 1. Nhóm Thực hiện & Phân công Trách nhiệm
-
-Dự án được vận hành bởi nhóm 3 thành viên với cơ cấu chức danh và trách nhiệm chéo (Cross-functional team) nhằm đảm bảo tính liên tục của project:
-
 ## 1. Thành viên nhóm & Phân công công việc
 
 | STT | Họ và tên | MSSV | Vai trò | Nhiệm vụ chính phụ trách |
 | :---: | :--- | :---: | :--- | :--- |
 | **1** | Đặng Minh Quân | `202416323` | Trưởng nhóm | • Thiết kế CSDL (ERD, SQL migration)<br>• Viết Backend (Spring Boot): API Quản lý bàn, Order, WebSocket đồng bộ Bếp<br>• Quản lý repo Git và điều phối tiến độ |
-| **2** | Đào Trần Hoàng Hải | `2024xxxx` | Thành viên | • Thiết kế giao diện (Figma)<br>• Viết Frontend (ReactJS): Giao diện POS Thu ngân & Màn hình Bếp (KDS)<br>• Tích hợp API và WebSocket phía Client |
-| **3** | Nguyễn Đại Nghĩa | `2024xxxx` | Thành viên | • Phát triển mô-đun Thanh toán VietQR & Thống kê doanh thu<br>• Viết kịch bản kiểm thử (Test cases) và thực hiện test chức năng<br>• Tổng hợp Báo cáo đồ án và làm Slide bảo vệ |
+| **2** | Đào Trần Hoàng Hải | `202416190` | Thành viên | • Thiết kế giao diện (Figma)<br>• Viết Frontend (ReactJS): Giao diện POS Thu ngân & Màn hình Bếp (KDS)<br>• Tích hợp API và WebSocket phía Client |
+| **3** | Bùi Đại Nghĩa | `202416302` | Thành viên | • Phát triển mô-đun Thanh toán VietQR & Thống kê doanh thu<br>• Viết kịch bản kiểm thử (Test cases) và thực hiện test chức năng<br>• Tổng hợp Báo cáo đồ án và làm Slide bảo vệ |
 
 ---
 
