@@ -1,0 +1,14 @@
+├── .github/
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   └── ISSUE_TEMPLATE/
+│       ├── bug_report.md
+│       └── user_story.md
+├── docs/                        # Lưu trữ tài liệu SE (SRS, UML, ERD, WBS)
+│   ├── SRS_v1.0.pdf
+│   ├── architecture_mvc.png
+│   └── database_erd.png
+├── backend/                     # Mã nguồn Backend (API, Controller, Model)
+├── frontend/                    # Mã nguồn Giao diện (POS Web App, KDS)
+├── docker-compose.yml           # Khởi tạo nhanh DB (PostgreSQL/MySQL) & Server
+├── .env.example                 # Mẫu cấu hình biến môi trường
+└── README.md                    # Tài liệu giới thiệu và hướng dẫn triển khai
