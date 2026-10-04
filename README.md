@@ -27,7 +27,7 @@ Hệ thống được thiết kế theo mẫu kiến trúc tách bạch mối qu
 
 ---
 
-## 3. Các Phân hệ Nghiệp vụ Cốt lõi (Core Feature Modules)
+## 3. Các Phân hệ Nghiệp vụ Cốt lõi
 
 Hệ thống đáp ứng 4 nhóm tác nhân (Actors): Khách hàng, Thu ngân/Phục vụ, Bếp/Bar và Quản lý:
 
@@ -47,7 +47,7 @@ Hệ thống đáp ứng 4 nhóm tác nhân (Actors): Khách hàng, Thu ngân/Ph
 
 ---
 
-## 4. Hướng dẫn Cài đặt & Chạy Cục bộ (Local Development)
+## 4. Hướng dẫn Cài đặt & Chạy Cục bộ
 
 ### Yêu cầu tiên quyết
 * Git installed
