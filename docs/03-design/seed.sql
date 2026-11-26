@@ -6,14 +6,16 @@
 --   staff1   / staff123   (STAFF   - Đào Trần Hoàng Hải)
 --   staff2   / staff123   (STAFF   - Vũ Tuấn Anh)
 --   kitchen1 / kitchen123 (KITCHEN - Bùi Đại Nghĩa)
+--   kitchen2 / kitchen123 (KITCHEN - Nguyễn Đăng Khôi)
 -- ============================================================================
 
--- 1. Tài khoản Nhân sự (4 thành viên Nhóm 1)
+-- 1. Tài khoản Nhân sự (5 thành viên Nhóm 1)
 INSERT INTO users (username, password_hash, full_name, role, is_active) VALUES
 ('admin', '$2a$10$i/TGy7KH4VZ2nv3l.7m2T.NRsCRmyhQ3R0gIkH20WSxOunMIyl/Z.', 'Đặng Minh Quân', 'ADMIN', TRUE),
 ('staff1', '$2a$10$jgmYqAovnDhECXVWVbvCRuB5s1OiW2ICiM7NS1Qg1AbOEG8CiyEAu', 'Đào Trần Hoàng Hải', 'STAFF', TRUE),
 ('staff2', '$2a$10$jgmYqAovnDhECXVWVbvCRuB5s1OiW2ICiM7NS1Qg1AbOEG8CiyEAu', 'Vũ Tuấn Anh', 'STAFF', TRUE),
-('kitchen1', '$2a$10$hOom8G17O0vrsQHhX.UegevppFSbDgtpA8KZ.id./2b0PqdZLja4u', 'Bùi Đại Nghĩa', 'KITCHEN', TRUE);
+('kitchen1', '$2a$10$hOom8G17O0vrsQHhX.UegevppFSbDgtpA8KZ.id./2b0PqdZLja4u', 'Bùi Đại Nghĩa', 'KITCHEN', TRUE),
+('kitchen2', '$2a$10$hOom8G17O0vrsQHhX.UegevppFSbDgtpA8KZ.id./2b0PqdZLja4u', 'Nguyễn Đăng Khôi', 'KITCHEN', TRUE);
 
 -- 2. Cấu hình Hệ thống & VietQR Mặc định
 INSERT INTO system_settings (setting_key, setting_value) VALUES

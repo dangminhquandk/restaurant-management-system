@@ -6,6 +6,7 @@
   - Đào Trần Hoàng Hải - MSSV: 202416190
   - Vũ Tuấn Anh - MSSV: 202416635
   - Bùi Đại Nghĩa - MSSV: 202416302
+  - Nguyễn Đăng Khôi - MSSV: 202416535
 
 ---
 
@@ -72,11 +73,12 @@
 ---
 
 # Slide 9: Phân Công Công Việc Trong Nhóm
-## Phân Chia Nhiệm Vụ Rõ Người Rõ Việc Cho 4 Thành Viên
+## Phân Chia Nhiệm Vụ Rõ Người Rõ Việc Cho 5 Thành Viên
 - **Đặng Minh Quân (Nhóm trưởng):** Thiết kế cơ sở dữ liệu (ERD), lập trình Backend quản lý bàn & đơn hàng, làm socket báo bếp, quản lý tiến độ chung.
 - **Đào Trần Hoàng Hải:** Thiết kế giao diện trên Figma, lập trình Frontend màn hình thu ngân và màn hình hiển thị trong bếp, kết nối API.
 - **Vũ Tuấn Anh:** Lập trình trang quản trị Admin (quản lý món/nhân viên), viết các API phục vụ quản trị, cấu hình Docker chạy hệ thống.
-- **Bùi Đại Nghĩa:** Làm chức năng thanh toán quét mã VietQR và xem thống kê doanh thu, viết kịch bản kiểm thử (test cases), viết báo cáo đồ án.
+- **Bùi Đại Nghĩa:** Chủ trì đặc tả SRS, xây dựng bộ kiểm thử tự động độc lập (JUnit 5 / JaCoCo / Vitest), biểu bảo trì và tổng hợp báo cáo đồ án.
+- **Nguyễn Đăng Khôi:** Phối hợp đặc tả nghiệp vụ, lập trình thanh toán quét mã VietQR động EMVCo, in hóa đơn & thống kê doanh thu.
 
 ---
 

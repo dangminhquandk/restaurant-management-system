@@ -101,7 +101,7 @@ Màn hình Gọi món (/pos/orders/1 — Chia 2 cột cố định, không cuộ
 
 ## 4. Đánh Giá Thiết Kế Giao Diện Theo 5 Thuộc Tính Sử Dụng (`Bai 07_2` P31–33)
 
-Nhóm áp dụng khung đánh giá định lượng trên thang điểm `1–5` đối với 5 thuộc tính chuẩn của bài giảng Chương 7_2 trên kịch bản mẫu (gồm 4 thành viên đóng vai chéo và 2 sinh viên ngoài nhóm thử nghiệm trên wireframe/prototype):
+Nhóm áp dụng khung đánh giá định lượng trên thang điểm `1–5` đối với 5 thuộc tính chuẩn của bài giảng Chương 7_2 trên kịch bản mẫu (gồm 5 thành viên đóng vai chéo và 2 sinh viên ngoài nhóm thử nghiệm trên wireframe/prototype):
 
 | Thuộc tính (`Bai 07_2` P32) | Chỉ số đo lường cụ thể | Mục tiêu thiết kế | Điểm đạt (TB / 5.0) | Cải tiến giao diện đã thực hiện sau góp ý |
 | :--- | :--- | :--- | :---: | :--- |

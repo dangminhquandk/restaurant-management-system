@@ -79,11 +79,11 @@ class AuthAndRbacIntegrationTest {
                         .content("{\"isAvailable\":false}"))
                 .andExpect(status().isForbidden());
 
-        // ADMIN truy cập danh sách nhân sự -> 200 (4 thành viên Nhóm 1)
+        // ADMIN truy cập danh sách nhân sự -> 200 (5 thành viên Nhóm 1)
         mvc.perform(get("/api/v1/admin/users")
                         .header("Authorization", "Bearer " + adminJwt))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(4));
+                .andExpect(jsonPath("$.length()").value(5));
 
         // Bảo vệ ADMIN cuối cùng không bị tự khóa -> 400
         mvc.perform(patch("/api/v1/admin/users/1/status")

@@ -3,7 +3,7 @@
 
 > **Học phần:** Nhập môn Công nghệ Phần mềm (IT3180) — Trường CNTT&TT, Đại học Bách khoa Hà Nội  
 > **Giảng viên hướng dẫn:** TS. Nguyễn Nhất Hải  
-> **Nhóm thực hiện:** Nhóm 1 (`Đặng Minh Quân`, `Đào Trần Hoàng Hải`, `Vũ Tuấn Anh`, `Bùi Đại Nghĩa`)  
+> **Nhóm thực hiện:** Nhóm 1 (`Đặng Minh Quân`, `Đào Trần Hoàng Hải`, `Vũ Tuấn Anh`, `Bùi Đại Nghĩa`, `Nguyễn Đăng Khôi`)  
 > **Phiên bản & Baseline:** `v1.0` — Baseline `BL-02` (`v0.2.0-design`) | **Tham chiếu:** Chương 7_1 IT3180 & Báo cáo chuẩn HUST (Chương 3 & Chương 4)
 
 ---

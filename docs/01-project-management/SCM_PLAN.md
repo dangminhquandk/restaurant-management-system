@@ -80,7 +80,7 @@ flowchart LR
   1. Gắn liên kết GitHub Issue (`Closes #...`).
   2. Điền đầy đủ `PULL_REQUEST_TEMPLATE.md` (bao gồm **Code Review Checklist Chương 8**).
   3. **Bắt buộc ≥ 1 thành viên khác tác giả** review & approve, và **CI workflow (`repo-hygiene`, `backend-ci`, `frontend-ci`) xanh 100%**.
-  4. **Đảm bảo đóng góp minh bạch:** Cả 4 thành viên đều có commit và Pull Request thực tế trên lịch sử Git của kho lưu trữ.
+  4. **Đảm bảo đóng góp minh bạch:** Cả 5 thành viên đều có commit và Pull Request thực tế trên lịch sử Git của kho lưu trữ.
 
 ---
 

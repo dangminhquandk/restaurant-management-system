@@ -21,10 +21,10 @@
 
 * **Người trình bày:** Đào Trần Hoàng Hải 
 * **Thời lượng:** 45 giây
-* **Nội dung trên slide:** Tên đề tài, IT3180, GVHD: TS. Nguyễn Nhất Hải, 4 thành viên nhóm 1.
+* **Nội dung trên slide:** Tên đề tài, IT3180, GVHD: TS. Nguyễn Nhất Hải, 5 thành viên nhóm 1.
 * **Lời thoại nói trước lớp:**
   > *"Em xin kính chào thầy Nguyễn Nhất Hải và các bạn. Hôm nay, nhóm 1 xin đại diện báo cáo về đề tài bài tập lớn môn Nhập môn Công nghệ phần mềm: **'Xây dựng Hệ thống Quản lý Nhà hàng Thực tế' (Restaurant Management System)**.*
-  > *Nhóm gồm có 4 thành viên: bạn Đặng Minh Quân là nhóm trưởng, em là Đào Trần Hoàng Hải, cùng hai bạn Vũ Tuấn Anh và Bùi Đại Nghĩa.*
+  > *Nhóm gồm có 5 thành viên: bạn Đặng Minh Quân là nhóm trưởng, em là Đào Trần Hoàng Hải, cùng các bạn Vũ Tuấn Anh, Bùi Đại Nghĩa và Nguyễn Đăng Khôi.*
   > *Hôm nay, nhóm em xin phép được trình bày về bối cảnh bài toán, các yêu cầu hệ thống và kế hoạch triển khai của nhóm trong học kỳ này."*
   >
 
@@ -148,15 +148,16 @@
 
 * **Người trình bày:** Bùi Đại Nghĩa
 * **Thời lượng:** 1 phút
-* **Nội dung trên slide:** Bảng phân công 4 bạn: Quân, Hải, Tuấn Anh, Nghĩa.
+* **Nội dung trên slide:** Bảng phân công 5 bạn: Quân, Hải, Tuấn Anh, Nghĩa, Khôi.
 * **Lời thoại nói trước lớp:**
-  > *"Để đảm bảo dự án hoàn thành đúng tiến độ, công việc được phân chia cụ thể cho từng thành viên dựa trên năng lực và thế mạnh:*
+  > *"Để đảm bảo dự án hoàn thành đúng tiến độ, công việc được phân chia cụ thể cho 5 thành viên dựa trên năng lực và thế mạnh:*
   >
   > * **Bạn Đặng Minh Quân (Nhóm trưởng):** Chịu trách nhiệm thiết kế CSDL (vẽ ERD, viết script tạo bảng), viết Backend quản lý bàn, tạo đơn gọi món, kết nối WebSocket cho bếp và theo dõi tiến độ chung.*
   > * **Bạn Đào Trần Hoàng Hải:** Phụ trách thiết kế toàn bộ UI trên Figma, lập trình Frontend ứng dụng POS cho thu ngân và màn hình KDS cho nhà bếp, kết nối các API.*
-  > * **Bạn Vũ Tuấn Anh:** Lập trình phân hệ Quản trị Admin (quản lý món ăn, danh mục, tài khoản), viết các API quản trị và cấu hình môi trường Docker cho cả dự án.*
-  > * **Em (Bùi Đại Nghĩa):** Phụ trách tích hợp thanh toán VietQR và logic thống kê doanh thu, thiết kế kịch bản kiểm thử (Test cases), thực hiện test lỗi và soạn thảo báo cáo đồ án môn học.*
-  >   *Cách phân chia này giúp mỗi bạn phụ trách trọn vẹn một mảng từ giao diện đến nghiệp vụ, đảm bảo khối lượng công việc đồng đều."*
+  > * **Bạn Vũ Tuấn Anh:** Lập trình phân hệ Quản trị Admin (quản lý món ăn, danh mục, tài khoản), viết các API quản trị và cấu hình môi trường Docker, CI cho cả dự án.*
+  > * **Bạn Nguyễn Đăng Khôi:** Phối hợp khảo sát nghiệp vụ, phát triển chức năng thanh toán mã VietQR động EMVCo, in hóa đơn và thống kê doanh thu.*
+  > * **Em (Bùi Đại Nghĩa):** Phụ trách tài liệu đặc tả SRS, thiết kế kịch bản kiểm thử (Test cases), thực hiện kiểm thử chéo độc lập các chức năng và tổng hợp báo cáo đồ án môn học.*
+  >   *Cách phân chia này giúp tách biệt người lập trình và người kiểm thử chéo, đảm bảo khối lượng công việc đồng đều."*
   >
 
 ---

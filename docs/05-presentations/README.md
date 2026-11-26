@@ -8,7 +8,7 @@
 ## Danh mục Tệp Bàn giao tại Thư mục này
 
 1. **[Bao_cao_BTL_IT3180_Nhom1_Final.docx](file:///Users/quandkh/Documents/Learning%20Hub/restaurant-management-system/docs/05-presentations/Bao_cao_BTL_IT3180_Nhom1_Final.docx)** — Báo cáo Bài tập lớn hoàn chỉnh theo đúng khung **7 chương chuẩn Trường CNTT&TT – ĐH Bách khoa Hà Nội**, tích hợp đầy đủ:
-   - Trang bìa, Lời nói đầu, Bảng phân công & đánh giá 4 thành viên.
+   - Trang bìa, Lời nói đầu, Bảng phân công & đánh giá 5 thành viên (`20%`/người).
    - Khảo sát nghiệp vụ, phạm vi MoSCoW, kế hoạch Agile/Scrum 4 Sprint, quản lý rủi ro RMMM & 5 mốc Baseline SCM.
    - Đặc tả yêu cầu `SRS v1.0` (22 FR, 8 NFR định lượng, hộp đặc tả Use Case chi tiết).
    - Phân tích lớp `Boundary – Control – Entity`, Máy trạng thái hữu hạn và chuẩn hóa CSDL `3NF`.
@@ -18,7 +18,7 @@
    - Hướng dẫn cài đặt 1 lệnh `docker compose -p rms up -d --build` và hướng dẫn sử dụng theo vai trò.
 
 2. **[DEFENSE_PLAYBOOK_QNA.md](file:///Users/quandkh/Documents/Learning%20Hub/restaurant-management-system/docs/05-presentations/DEFENSE_PLAYBOOK_QNA.md)** — Cẩm nang bảo vệ vấn đáp cuối kỳ:
-   - Bản đồ quyền sở hữu mã nguồn tới mức `file:symbol:line` cho từng thành viên (`Đặng Minh Quân`, `Đào Trần Hoàng Hải`, `Vũ Tuấn Anh`, `Bùi Đại Nghĩa`).
+   - Bản đồ quyền sở hữu mã nguồn tới mức `file:symbol:line` cho từng thành viên (`Đặng Minh Quân`, `Đào Trần Hoàng Hải`, `Vũ Tuấn Anh`, `Bùi Đại Nghĩa`, `Nguyễn Đăng Khôi`).
    - Kịch bản trình diễn trực tiếp 5 phút và bộ **15 câu hỏi phản biện chuyên sâu** kèm đáp án gãy gọn.
 
 3. **Thư mục `screenshots/`** — Bộ 8 ảnh chụp màn hình thực tế (`1440px`) trích xuất trực tiếp từ phiên kiểm thử E2E trên `http://localhost:3000`:

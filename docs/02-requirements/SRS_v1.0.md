@@ -3,7 +3,7 @@
 
 > **Học phần:** Nhập môn Công nghệ Phần mềm (IT3180) — Trường CNTT&TT, Đại học Bách khoa Hà Nội  
 > **Giảng viên hướng dẫn:** TS. Nguyễn Nhất Hải  
-> **Nhóm thực hiện:** Nhóm 1 (`Đặng Minh Quân`, `Đào Trần Hoàng Hải`, `Vũ Tuấn Anh`, `Bùi Đại Nghĩa`)  
+> **Nhóm thực hiện:** Nhóm 1 (`Đặng Minh Quân`, `Đào Trần Hoàng Hải`, `Vũ Tuấn Anh`, `Bùi Đại Nghĩa`, `Nguyễn Đăng Khôi`)  
 > **Phiên bản & Baseline:** `v1.0` — Baseline `BL-01` (`v0.1.0-srs`) | **Chuẩn tham chiếu:** IEEE 830 & Giáo trình Pressman (Chương 6_1, 6_2 IT3180)
 
 ---

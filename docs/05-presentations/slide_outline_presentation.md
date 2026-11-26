@@ -2,15 +2,15 @@
 **Học phần:** Nhập môn Công nghệ Phần mềm (IT3180) - ĐHBK Hà Nội  
 **Đề tài:** Hệ thống Quản lý Nhà hàng Thực tế (Restaurant Management System)  
 **Thời lượng dự kiến:** 10 - 12 phút (khoảng 1 - 1.2 phút / slide)  
-**Nhóm sinh viên:** Đặng Minh Quân, Đào Trần Hoàng Hải, Vũ Tuấn Anh, Bùi Đại Nghĩa  
+**Nhóm sinh viên:** Đặng Minh Quân, Đào Trần Hoàng Hải, Vũ Tuấn Anh, Bùi Đại Nghĩa, Nguyễn Đăng Khôi  
 
 ---
 
 ## TỔNG QUAN PHÂN CHIA THUYẾT TRÌNH (TALK TRACK)
 * **Phần 1: Mở đầu & Bài toán (Slide 1 - 3):** Nhóm trưởng Đặng Minh Quân (dẫn dắt, nêu lý do chọn đề tài).
-* **Phần 2: Yêu cầu chức năng & Nghiệp vụ (Slide 4 - 6):** Bùi Đại Nghĩa & Đào Trần Hoàng Hải (trình bày Actors, Use Case, giao diện và KDS).
+* **Phần 2: Yêu cầu chức năng & Nghiệp vụ (Slide 4 - 6):** Nguyễn Đăng Khôi & Đào Trần Hoàng Hải (trình bày Actors, Use Case, giao diện và KDS).
 * **Phần 3: Kiến trúc kỹ thuật & Công nghệ (Slide 7):** Vũ Tuấn Anh (trình bày Tech Stack, Docker và luồng dữ liệu).
-* **Phần 4: Kế hoạch & Phân công (Slide 8 - 10):** Đặng Minh Quân (tổng kết tiến độ Sprint, phân công nhiệm vụ và Q&A).
+* **Phần 4: Kế hoạch, Kiểm thử & Phân công (Slide 8 - 10):** Bùi Đại Nghĩa & Đặng Minh Quân (tổng kết tiến độ Sprint, kiểm thử, phân công nhiệm vụ và Q&A).
 
 ---
 
@@ -26,9 +26,10 @@
     2. Đào Trần Hoàng Hải – MSSV: `202416190`
     3. Vũ Tuấn Anh – MSSV: `202416635`
     4. Bùi Đại Nghĩa – MSSV: `202416302`
+    5. Nguyễn Đăng Khôi – MSSV: `202416535`
 * **Gợi ý hình ảnh/Thiết kế:** Logo ĐHBK Hà Nội + mockup phối cảnh hệ thống (POS tablet + màn hình bếp).
 * **Lời thoại người nói (Quân):**  
-  > *"Kính chào thầy/cô và các bạn. Hôm nay nhóm em xin phép trình bày đề tài bài tập lớn môn Nhập môn Công nghệ phần mềm: 'Xây dựng Hệ thống Quản lý Nhà hàng Thực tế'. Nhóm gồm 4 thành viên do em là Đặng Minh Quân làm nhóm trưởng."*
+  > *"Kính chào thầy/cô và các bạn. Hôm nay nhóm em xin phép trình bày đề tài bài tập lớn môn Nhập môn Công nghệ phần mềm: 'Xây dựng Hệ thống Quản lý Nhà hàng Thực tế'. Nhóm gồm 5 thành viên do em là Đặng Minh Quân làm nhóm trưởng."*
 
 ---
 
@@ -128,11 +129,12 @@
 * **Nội dung (Rõ người rõ việc):**
   * **Đặng Minh Quân (Nhóm trưởng):** Thiết kế CSDL, lập trình Backend quản lý bàn & đơn hàng, làm socket báo bếp, quản lý tiến độ.
   * **Đào Trần Hoàng Hải:** Thiết kế Figma, lập trình giao diện màn hình thu ngân POS và màn hình bếp KDS, nối API.
-  * **Vũ Tuấn Anh:** Lập trình trang quản trị Admin (quản lý món/nhân viên), viết API quản trị, cấu hình Docker.
-  * **Bùi Đại Nghĩa:** Làm chức năng thanh toán VietQR & thống kê, viết test cases kiểm thử hệ thống, viết tài liệu báo cáo.
-* **Gợi ý hình ảnh:** Bảng phân công 4 cột có ảnh thẻ/avatar của 4 bạn sinh viên.
+  * **Vũ Tuấn Anh:** Lập trình trang quản trị Admin (quản lý món/nhân viên), viết API quản trị, cấu hình Docker & Git CI.
+  * **Bùi Đại Nghĩa:** Chủ trì đặc tả SRS, xây dựng bộ kiểm thử tự động độc lập (JUnit 5 / JaCoCo / Vitest), nhật ký bảo trì và tổng hợp báo cáo.
+  * **Nguyễn Đăng Khôi:** Tham gia phân tích nghiệp vụ, làm chức năng thanh toán VietQR động EMVCo, in hóa đơn & thống kê doanh thu.
+* **Gợi ý hình ảnh:** Bảng phân công 5 cột có ảnh thẻ/avatar của 5 bạn sinh viên.
 * **Lời thoại người nói (Quân):**  
-  > *"Khối lượng công việc được chia đều cho 4 bạn dựa trên thế mạnh của từng người, đảm bảo bạn nào cũng nắm chắc một phân hệ từ giao diện tới xử lý logic."*
+  > *"Khối lượng công việc được chia đều cho 5 bạn dựa trên thế mạnh của từng người, đảm bảo bạn nào cũng nắm chắc một phân hệ từ nghiệp vụ tới cài đặt và kiểm thử chéo."*
 
 ---
 
@@ -154,4 +156,4 @@
 ## MẸO BẢO VỆ ĐỀ TÀI ĐẠT ĐIỂM CAO TRƯỚC GIẢNG VIÊN CNPM BÁCH KHOA
 1. **Không sa đà vào code ở buổi đầu:** Thầy cô chấm điểm buổi này ở khâu: **Hiểu bài toán có thực tế không**, **Phân tích yêu cầu có đầy đủ không**, **Phân chia công việc có đều không**.
 2. **Nhấn mạnh vào điểm khác biệt:** Hãy nhấn mạnh từ khóa **"Màn hình bếp KDS thời gian thực"** và **"VietQR tự động"**, vì nếu chỉ làm quản lý nhà hàng thêm/sửa/xóa thông thường thì sẽ rất cũ và không được đánh giá cao.
-3. **Phân chia người nói đều:** Cả 4 bạn nên lần lượt bước lên nói ít nhất 1-2 slide để thầy cô thấy tinh thần làm việc nhóm gắn kết.
+3. **Phân chia người nói đều:** Cả 5 bạn nên lần lượt bước lên nói ít nhất 1-2 slide để thầy cô thấy tinh thần làm việc nhóm gắn kết.

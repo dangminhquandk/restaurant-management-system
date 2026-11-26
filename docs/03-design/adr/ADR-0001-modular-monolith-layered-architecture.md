@@ -4,7 +4,7 @@
 Accepted — Baseline `BL-02` (`v0.2.0-design`)
 
 ## Context
-Hệ thống Quản lý Nhà hàng Thực tế (IT3180) phục vụ quy trình vận hành tại chỗ (*Dine-in*, quy mô 20–50 bàn) trong mạng nội bộ LAN của một nhà hàng đơn lẻ, bao gồm 3 giao diện nghiệp vụ (`POS`, `KDS`, `Admin Portal`). Nhóm phát triển gồm **4 sinh viên** thực hiện trong **8 tuần (4 Sprint)**, cần đảm bảo:
+Hệ thống Quản lý Nhà hàng Thực tế (IT3180) phục vụ quy trình vận hành tại chỗ (*Dine-in*, quy mô 20–50 bàn) trong mạng nội bộ LAN của một nhà hàng đơn lẻ, bao gồm 3 giao diện nghiệp vụ (`POS`, `KDS`, `Admin Portal`). Nhóm phát triển gồm **5 sinh viên** thực hiện trong **8 tuần (4 Sprint)**, cần đảm bảo:
 - Tính toàn vẹn giao dịch ACID tuyệt đối khi mở bàn, gộp bàn và thanh toán hóa đơn (`NFR-02`).
 - Độ trễ truyền sự kiện đơn hàng từ POS xuống KDS `< 1.000 ms` (`NFR-01`).
 - Đóng gói và khởi chạy toàn bộ hệ thống chỉ bằng 1 câu lệnh `docker compose up` (`NFR-07`).
@@ -13,7 +13,7 @@ Hệ thống Quản lý Nhà hàng Thực tế (IT3180) phục vụ quy trình v
 ## Decision Drivers
 - **Độ phức tạp vận hành thấp:** Khởi chạy nhanh trên máy cá nhân của sinh viên và giảng viên chấm bài.
 - **Giao dịch cơ sở dữ liệu cục bộ (Local ACID Transactions):** Tránh độ phức tạp của giao dịch phân tán (Saga / 2PC) khi gộp bàn hoặc chốt thanh toán.
-- **Ranh giới mô-đun rõ ràng (`High Cohesion – Loose Coupling`, `Bai 07_1` P73–77):** Cho phép 4 thành viên làm việc song song mà ít xung đột Git.
+- **Ranh giới mô-đun rõ ràng (`High Cohesion – Loose Coupling`, `Bai 07_1` P73–77):** Cho phép 5 thành viên làm việc song song mà ít xung đột Git.
 - **Phù hợp quy mô tài nguyên:** Toàn bộ tải đồng thời của nhà hàng 50 bàn (`~10–30` thiết bị kết nối LAN) nằm gọn trong khả năng xử lý của một tiến trình JVM duy nhất.
 
 ## Considered Options

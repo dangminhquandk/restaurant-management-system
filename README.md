@@ -10,12 +10,13 @@
 
 ## 1. Thành viên Nhóm 1 & Phân công Trách nhiệm
 
-| STT | Họ và tên | MSSV | Vai trò CNPM | Nhiệm vụ kỹ thuật & Hồ sơ phụ trách |
+| STT | Họ và tên | MSSV | Vai trò trong nhóm / Quy trình CNPM | Nhiệm vụ kỹ thuật & Hồ sơ phụ trách (`20%`/người) |
 | :---: | :--- | :---: | :--- | :--- |
-| **1** | **Đặng Minh Quân** | `202416323` | **Project Manager / Scrum Master** | • Lập kế hoạch dự án (`PROJECT_MANAGEMENT_PLAN.md`), Product Backlog & thiết kế CSDL 3NF (`schema.sql`)<br>• Backend: Sơ đồ bàn (`@Version` Optimistic Locking), Chuyển/Gộp bàn ACID, Máy trạng thái & WebSocket STOMP (`/ws`) |
-| **2** | **Đào Trần Hoàng Hải** | `202416190` | **UI/UX Lead** *(Design & Usability)* | • Phân tích tác vụ, Style Guide *Tactile Bistro Command* & Khảo sát đánh giá giao diện (`UI_UX_EVALUATION.md`)<br>• Frontend (React 18 + TS): Màn hình Sơ đồ bàn, Gọi món POS $\le 3$ chạm (`usePosCart`) & Màn hình Bếp KDS |
-| **3** | **Vũ Tuấn Anh** | `202416635` | **Configuration Manager** *(SCM, CI/CD, Docker)* | • Kế hoạch quản lý cấu hình (`SCM_PLAN.md`), GitHub Actions CI 3-job & Đóng gói Multi-stage Docker Compose<br>• Backend/Frontend: Xác thực JWT/BCrypt, phân quyền RBAC & Phân hệ Quản trị Thực đơn / Bàn / Nhân sự |
-| **4** | **Bùi Đại Nghĩa** | `202416302` | **QA & Documentation Lead** *(Testing & Maintenance)* | • Đặc tả `SRS_v1.0.md` (RTM), Kế hoạch kiểm thử `STP_v1.0.md` (White-box CFG / Black-box) & `MAINTENANCE_LOG.md`<br>• Module thanh toán **VietQR động chuẩn NAPAS EMVCo (CRC16-CCITT)**, Báo cáo doanh thu & Nhật ký kiểm toán |
+| **1** | **Đặng Minh Quân** | `202416323` | **Nhóm trưởng** — Lập kế hoạch & Thiết kế CSDL | • Kế hoạch dự án (`PROJECT_MANAGEMENT_PLAN.md`), `PRODUCT_BACKLOG.md`, `SDD_v1.0.md` & `schema.sql` (3NF)<br>• Backend: Sơ đồ bàn (`@Version` chống mở trùng), Chuyển/Gộp bàn ACID, `OrderCodeGenerator`, `OrderService`, `KdsService`, Máy trạng thái & WebSocket STOMP (`/ws`) |
+| **2** | **Đào Trần Hoàng Hải** | `202416190` | **Thành viên** — Thiết kế Giao diện & Trải nghiệm | • Thiết kế giao diện Figma & Khảo sát đánh giá tính dễ dùng (`UI_UX_EVALUATION.md`)<br>• Frontend: Màn hình Sơ đồ bàn (`FloorMapPage`), Gọi món POS $\le 3$ chạm (`OrderPadPage`, `usePosCart`), Chuyển/Gộp bàn, Màn hình Bếp KDS (`KdsBoardPage`) & `useStompClient` |
+| **3** | **Vũ Tuấn Anh** | `202416635` | **Thành viên** — Quản lý Cấu hình (Git, CI, Docker) | • Kế hoạch SCM (`SCM_PLAN.md`), GitHub Actions CI (`ci.yml`), `CHANGELOG.md` & đóng gói Multi-stage Docker Compose<br>• Backend/Frontend: Xác thực JWT/BCrypt, phân quyền RBAC (`SecurityConfig`, `AuthService`, `UserService`) & trang Quản trị Thực đơn / Bàn ăn / Nhân sự |
+| **4** | **Bùi Đại Nghĩa** | `202416302` | **Thành viên** — Kiểm thử Chất lượng & Biên soạn Tài liệu | • Chủ trì đặc tả `SRS_v1.0.md` (RTM), Kế hoạch kiểm thử `STP_v1.0.md` (3 CFG hộp trắng, EP/BVA, Decision Table, 45 TCs), `MAINTENANCE_LOG.md` & báo cáo cuối kỳ<br>• Xây dựng bộ kiểm thử tự động độc lập (`StateMachineWhiteBoxTest`, `TableConcurrencyIntegrationTest`, `WebSocketStompLatencyIntegrationTest`, `Crc16AndVietQrUnitTest`, `*BranchUnitTest`, Vitest) |
+| **5** | **Nguyễn Đăng Khôi** | `202416535` | **Thành viên** — Phân tích Nghiệp vụ, VietQR & Thống kê | • Phối hợp khảo sát nghiệp vụ, đặc tả Use Case (`SRS_v1.0.md`) & quyết định kiến trúc `ADR-0004`<br>• Backend/Frontend: Sinh mã **VietQR động NAPAS 247 (EMVCo CRC16)** (`Crc16Util`, `EmvCoVietQrBuilder`, `PaymentService`), In hóa đơn, Lịch sử đơn, Thống kê doanh thu / Top 10 món & Audit Log |
 
 ---
 
@@ -85,7 +86,7 @@ docker compose -p rms ps
 | :--- | :---: | :---: | :--- |
 | **Quản trị viên (`ADMIN`)** | `admin` | `admin123` | `/admin/menu` & `/admin/dashboard` |
 | **Thu ngân / Phục vụ (`STAFF`)** | `staff1` / `staff2` | `staff123` | `/pos/tables` & `/pos/orders/:tableId` |
-| **Nhân viên Bếp (`KITCHEN`)** | `kitchen1` | `kitchen123` | `/kds` *(Dark KDS Board)* |
+| **Nhân viên Bếp (`KITCHEN`)** | `kitchen1` / `kitchen2` | `kitchen123` | `/kds` *(Dark KDS Board)* |
 
 ---
 

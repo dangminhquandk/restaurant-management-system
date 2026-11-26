@@ -60,8 +60,8 @@
 | **T1.3** | US-01 | Soạn `SCM_PLAN.md` (CI, 5 Baselines, Git Flow, SemVer, Change Control) & `CHANGELOG.md` | Tuấn Anh | 4h | `Done` |
 | **T1.4** | US-01 | Soạn `PROJECT_MANAGEMENT_PLAN.md` (4P, WBS 4 Sprint, Gantt, Task Network, Risk-RMMM) | Quân | 8h | `Done` |
 | **T1.5** | US-01 | Soạn `PRODUCT_BACKLOG.md` (Epics, 22 User Stories MoSCoW, Sprint 1 Backlog, Burndown) | Quân | 6h | `Done` |
-| **T1.6** | US-02 | Khảo sát nghiệp vụ & phân tích/thương lượng yêu cầu (BR vs UR, 4 Actors, MoSCoW) | Nghĩa | 6h | `Done` |
-| **T1.7** | US-02 | Đặc tả 22 Functional Requirements (`FR-01..22`), 8 NFR định lượng & 6 Use Case chi tiết | Nghĩa, Quân | 8h | `Done` |
+| **T1.6** | US-02 | Khảo sát nghiệp vụ & phân tích/thương lượng yêu cầu (BR vs UR, 4 Actors, MoSCoW) | Nghĩa, Khôi | 6h | `Done` |
+| **T1.7** | US-02 | Đặc tả 22 Functional Requirements (`FR-01..22`), 8 NFR định lượng & 6 Use Case chi tiết | Nghĩa, Quân, Khôi | 8h | `Done` |
 | **T1.8** | US-02 | Vẽ bộ mô hình đặc tả WebApp: DFD (0/1), Use Case, Sequence (3 luồng), State FSM (2 máy), Activity/Swimlane, ERD, Navigation Map | Quân, Nghĩa | 8h | `Done` |
 | **T1.9** | US-02 | Xây dựng Ma trận Truy xuất Yêu cầu (`RTM`) & kiểm tra chéo tính nhất quán toàn tài liệu | Nghĩa | 4h | `Done` |
 | **T1.10** | US-03 | Phân tích người dùng/tác vụ (`Bai 07_2`) và phác thảo Wireframe Lo-Fi màn hình POS & KDS | Hải | 8h | `Done` |
@@ -73,7 +73,7 @@
 
 | Ngày làm việc | Mốc thời gian | Giờ công còn lại (Lý tưởng) | Giờ công còn lại (Thực tế) | Ghi chú tiến độ |
 | :---: | :--- | :---: | :---: | :--- |
-| Ngày 0 | Khởi động Sprint 1 | 64h | 64h | Chốt đề tài, phân công 4 thành viên |
+| Ngày 0 | Khởi động Sprint 1 | 64h | 64h | Chốt đề tài, phân công 5 thành viên |
 | Ngày 2 | Hết ngày 2 | 51h | 56h | Hoàn thành báo cáo đề xuất & slide mở đầu |
 | Ngày 4 | Hết ngày 4 | 38h | 40h | Hoàn thành cấu trúc SCM, `.github/*`, `PROJECT_MANAGEMENT_PLAN` |
 | Ngày 6 | Hết ngày 6 | 26h | 24h | Chốt `PRODUCT_BACKLOG` & phần FR/NFR của `SRS_v1.0` |
@@ -99,7 +99,7 @@ xychart-beta
 
 ### 5.2 Sprint 1 Retrospective (Cải tiến quy trình)
 - **Điểm làm tốt (Keep):** Thống nhất sớm phạm vi MoSCoW giúp tránh ôm đồm tính năng thừa (tích điểm, đa chi nhánh); chia rõ vai trò CNPM song song với vai trò kỹ thuật.
-- **Điểm cần khắc phục (Improve):** Ở giai đoạn đầu có tình trạng dời file thủ công (`README.md`, `LICENSE`) làm sai cấu trúc root và mới chỉ có 1 người commit. Từ Sprint 2, **bắt buộc cả 4 thành viên làm việc trên nhánh `feature/*` riêng và tạo PR qua review chéo**.
+- **Điểm cần khắc phục (Improve):** Ở giai đoạn đầu có tình trạng dời file thủ công (`README.md`, `LICENSE`) làm sai cấu trúc root và mới chỉ có 1 người commit. Từ Sprint 2, **bắt buộc cả 5 thành viên làm việc trên nhánh `feature/*` riêng và tạo PR qua review chéo**.
 
 ---
 
