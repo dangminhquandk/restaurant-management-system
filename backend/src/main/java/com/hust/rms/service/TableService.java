@@ -22,11 +22,7 @@ import com.hust.rms.security.RmsUserPrincipal;
 import com.hust.rms.service.mapper.DtoMapper;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -40,18 +36,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TableService {
 
-    private static final ZoneId RESTAURANT_ZONE = ZoneId.of("Asia/Ho_Chi_Minh");
-    private static final DateTimeFormatter ORDER_DATE_FMT = DateTimeFormatter.BASIC_ISO_DATE;
-
     private final DiningTableRepository diningTableRepository;
     private final AreaRepository areaRepository;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepo;
     private final UserRepository userRepository;
     private final TableStateMachine tableStateMachine;
+    private final OrderCodeGenerator orderCodeGenerator;
     private final AuditLogService auditLogSvc;
     private final ApplicationEventPublisher eventPublisher;
-    private final AtomicInteger orderSeq = new AtomicInteger(0);
 
     public TableService(
             DiningTableRepository diningTableRepository,
@@ -60,6 +53,7 @@ public class TableService {
             OrderItemRepository orderItemRepo,
             UserRepository userRepository,
             TableStateMachine tableStateMachine,
+            OrderCodeGenerator orderCodeGenerator,
             AuditLogService auditLogSvc,
             ApplicationEventPublisher eventPublisher
     ) {
@@ -69,6 +63,7 @@ public class TableService {
         this.orderItemRepo = orderItemRepo;
         this.userRepository = userRepository;
         this.tableStateMachine = tableStateMachine;
+        this.orderCodeGenerator = orderCodeGenerator;
         this.auditLogSvc = auditLogSvc;
         this.eventPublisher = eventPublisher;
     }
@@ -163,7 +158,7 @@ public class TableService {
                 .orElseThrow(() -> new ResourceNotFoundException("USER_NOT_FOUND", "Không tìm thấy nhân viên."));
 
         Order order = new Order();
-        order.setOrderCode(generateUniqueOrderCode());
+        order.setOrderCode(orderCodeGenerator.nextUniqueCode());
         order.setTable(updatedTable);
         order.setStaff(staff);
         order.setStatus(OrderStatus.OPEN);
@@ -295,7 +290,7 @@ public class TableService {
             dstTable = diningTableRepository.saveAndFlush(dstTable);
 
             Order created = new Order();
-            created.setOrderCode(generateUniqueOrderCode());
+            created.setOrderCode(orderCodeGenerator.nextUniqueCode());
             created.setTable(dstTable);
             created.setStaff(userActor);
             created.setStatus(OrderStatus.OPEN);
@@ -381,17 +376,6 @@ public class TableService {
         ));
 
         return DtoMapper.toOrderDto(savedDstOrder);
-    }
-
-    private String generateUniqueOrderCode() {
-        String datePart = LocalDate.now(RESTAURANT_ZONE).format(ORDER_DATE_FMT);
-        while (true) {
-            int seq = orderSeq.incrementAndGet();
-            String candidate = String.format("ORD-%s-%04d", datePart, seq);
-            if (!orderRepository.existsByOrderCode(candidate)) {
-                return candidate;
-            }
-        }
     }
 
     private DiningTable findTableWithAreaOrThrow(Long id) {
