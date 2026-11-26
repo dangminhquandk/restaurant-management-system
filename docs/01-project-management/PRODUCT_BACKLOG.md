@@ -64,8 +64,8 @@
 | **T1.7** | US-02 | Đặc tả 22 Functional Requirements (`FR-01..22`), 8 NFR định lượng & 6 Use Case chi tiết | Nghĩa, Quân | 8h | `Done` |
 | **T1.8** | US-02 | Vẽ bộ mô hình đặc tả WebApp: DFD (0/1), Use Case, Sequence (3 luồng), State FSM (2 máy), Activity/Swimlane, ERD, Navigation Map | Quân, Nghĩa | 8h | `Done` |
 | **T1.9** | US-02 | Xây dựng Ma trận Truy xuất Yêu cầu (`RTM`) & kiểm tra chéo tính nhất quán toàn tài liệu | Nghĩa | 4h | `Done` |
-| **T1.10** | US-03 | Phân tích người dùng/tác vụ (`Bai 07_2`) và phác thảo Wireframe Lo-Fi màn hình POS & KDS | Hải | 8h | `In Progress` |
-| **T1.11** | US-03 | Rà soát tổng thể (FTR) hồ sơ `BL-01` và gắn tag `v0.1.0-srs` | Toàn nhóm | 4h | `Todo` |
+| **T1.10** | US-03 | Phân tích người dùng/tác vụ (`Bai 07_2`) và phác thảo Wireframe Lo-Fi màn hình POS & KDS | Hải | 8h | `Done` |
+| **T1.11** | US-03 | Rà soát tổng thể (FTR) hồ sơ `BL-01` và gắn tag `v0.1.0-srs` | Toàn nhóm | 4h | `Done` |
 
 ---
 
