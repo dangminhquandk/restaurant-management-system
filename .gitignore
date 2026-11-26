@@ -21,9 +21,9 @@ pom.xml.versionsBackup
 pom.xml.next
 release.properties
 
-# Gradle
-.gradle/
-build/
+# Python venv
+.venv/
+venv/
 
 # ==========================================
 # 2. Frontend / Node.js (POS Web App, KDS)
@@ -43,6 +43,7 @@ build/
 .env.development.local
 .env.test.local
 .env.production.local
+!.env.example
 
 # ==========================================
 # 4. IDEs & Editors
@@ -74,3 +75,13 @@ out/
 .Trashes
 ehthumbs.db
 Thumbs.db
+desktop.ini
+Desktop.ini
+
+# ==========================================
+# 6. Local Course Materials & Heavy Binaries (Excluded from SCM)
+# ==========================================
+Slide/
+Tài liệu/
+docs/05-presentations/Restaurant Management System.pdf
+*.bak

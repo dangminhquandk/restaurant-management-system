@@ -1,14 +1,21 @@
 ├── .github/
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── user_story.md
+│   │   ├── bug_report.md
+│   │   └── change_request.md
 │   ├── PULL_REQUEST_TEMPLATE.md
-│   └── ISSUE_TEMPLATE/
-│       ├── bug_report.md
-│       └── user_story.md
-├── docs/                        # Lưu trữ tài liệu SE (SRS, UML, ERD, WBS)
-│   ├── SRS_v1.0.pdf
-│   ├── architecture_mvc.png
-│   └── database_erd.png
-├── backend/                     # Mã nguồn Backend (API, Controller, Model)
-├── frontend/                    # Mã nguồn Giao diện (POS Web App, KDS)
-├── docker-compose.yml           # Khởi tạo nhanh DB (PostgreSQL/MySQL) & Server
-├── .env.example                 # Mẫu cấu hình biến môi trường
-└── README.md                    # Tài liệu giới thiệu và hướng dẫn triển khai
+│   └── workflows/
+│       └── ci.yml
+├── docs/
+│   ├── 01-project-management/     # PMP (WBS, Gantt, Estimation, Risk-RMMM), Backlog, SCM Plan
+│   ├── 02-requirements/           # SRS_v1.0 (DFD, Use Case, Sequence, FSM, Activity, ERD, RTM)
+│   ├── 03-design/                 # SDD_v1.0, Architecture, Design Patterns, DDL, UI/UX Evaluation
+│   ├── 04-testing-qa/             # STP_v1.0, White-box CFG, Black-box BVA/DT, Maintenance Log
+│   └── 05-presentations/          # Báo cáo đề xuất đề tài, slide outline, kịch bản thuyết trình
+├── backend/                       # Mã nguồn Backend Spring Boot 3 (API, Service, WebSocket, JPA)
+├── frontend/                      # Mã nguồn Giao diện ReactJS + TS (POS Web App, KDS, Admin)
+├── docker-compose.yml             # Khởi tạo PostgreSQL, Backend, Frontend & seed.sql
+├── .env.example                   # Mẫu cấu hình biến môi trường
+├── CHANGELOG.md                   # Lịch sử phiên bản & Baselines
+├── LICENSE
+└── README.md                      # Tài liệu giới thiệu, phân công và hướng dẫn triển khai
