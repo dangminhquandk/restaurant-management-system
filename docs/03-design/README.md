@@ -1,22 +1,24 @@
-# TÀI LIỆU THIẾT KẾ PHẦN MỀM & GIAO DIỆN (DESIGN — SPRINT 2)
+# TÀI LIỆU THIẾT KẾ PHẦN MỀM & GIAO DIỆN (DESIGN — BASELINE BL-02)
 
 > **Học phần:** IT3180 — Chương 7_1 (Thiết kế Phần mềm) & Chương 7_2 (Thiết kế Giao diện Người dùng)  
-> **Mốc Baseline mục tiêu:** `BL-02` (`v0.2.0-design`, Sprint 2 — Tuần 3)  
+> **Mốc Baseline:** `BL-02` (`v0.2.0-design` — Đã hoàn thành)  
 > **Chủ trì:** Đặng Minh Quân *(Kiến trúc & Dữ liệu)*, Đào Trần Hoàng Hải *(UI/UX & Đánh giá)*
 
 ---
 
-## Danh mục Hồ sơ Sẽ Bàn giao tại Thư mục này
+## Danh mục Hồ sơ Đã Bàn Giao tại Thư mục này
 
-1. **`SDD_v1.0.md` — Tài liệu Thiết kế Hệ thống (Software Design Description):**
-   - **Thiết kế Kiến trúc (`Bai 07_1` P40–52):** Sơ đồ Layered Architecture (Controller – Service – Repository – Data) + Event-Driven WebSocket STOMP; bảng phân tích đánh đổi (*Trade-off Analysis*) giải thích vì sao chọn Modular Monolith thay vì Microservices và STOMP thay vì HTTP Polling.
-   - **Nguyên lý Thiết kế & Design Patterns (`Bai 07_1` P21–25, P58, P73–77):**
-     - Chứng minh High Cohesion – Loose Coupling và nguyên lý SOLID (OCP, DIP, SRP, ISP).
-     - Chi tiết thiết kế 3 Design Patterns: **Strategy Pattern** (`CashPaymentStrategy`, `VietQRPaymentStrategy`), **Observer / Pub-Sub** (STOMP events), và **State Pattern** (chuyển trạng thái Bàn & Món KDS).
-   - **Thiết kế Chi tiết Lớp (`Bai 07_1` P32–33, P56):** Class Diagram phân loại rõ Entity, Boundary (Controller/DTO), Control (Service).
-   - **Thiết kế Dữ liệu 3NF (`Bai 07_1` P69–70):** Mô hình dữ liệu logic → vật lý, **Data Dictionary** đầy đủ từng cột, ràng buộc khóa ngoại, chỉ mục (Index) và cột `version` cho Optimistic Locking.
-   - **Sơ đồ Triển khai (Deployment Diagram — `Bai 07_1` P61):** Cấu trúc Docker containers (PostgreSQL, Spring Boot, Nginx/React) trong mạng nội bộ LAN của nhà hàng.
-2. **`schema.sql` & `seed.sql`:** Script khởi tạo bảng chuẩn PostgreSQL 16 và dữ liệu mẫu (3 khu vực, 20 bàn, 4 danh mục, 20+ món ăn, tài khoản mẫu cho 3 vai trò).
-3. **`UI_UX_EVALUATION.md` (`Bai 07_2` P16–56):**
-   - Quy trình lặp ISO 9241-210: Phân tích người dùng & tác vụ → Phác thảo Wireframe đơn sắc (Lo-Fi) → Style Guide (màu sắc, typography, nút ≥ 44×44 px theo Luật Fitts) → Figma Hi-Fi Prototype.
-   - Báo cáo **Khảo sát Đánh giá UI** (tối thiểu 5–10 người thử nghiệm) theo đúng 5 thuộc tính sử dụng của `Bai 07_2` P32 (*Khả năng học, Tốc độ vận hành, Chịu lỗi, Khả năng khôi phục, Tương thích*) kèm các cải tiến UI sau đánh giá.
+1. **[SDD_v1.0.md](SDD_v1.0.md) — Tài liệu Thiết kế Hệ thống (Software Design Description):**
+   - Kiến trúc Modular Monolith Phân lớp kết hợp Event-Driven WebSocket STOMP.
+   - Phân tích lớp **Boundary – Control – Entity** và sơ đồ lớp chi tiết cho **3 Design Patterns** (*Strategy*, *State*, *Observer/Pub-Sub*).
+   - Từ điển dữ liệu 6 cột chuẩn báo cáo Bách Khoa cho toàn bộ 10 bảng CSDL 3NF.
+   - **Hợp đồng REST API (`/api/v1/**`) và Kênh STOMP (`/ws`, `/topic/**`) khóa cứng** làm chuẩn tích hợp giữa Backend & Frontend.
+2. **Bộ Bản ghi Quyết định Kiến trúc (`adr/`):**
+   - [ADR-0001: Modular Monolith Phân tầng vs. Microservices](adr/ADR-0001-modular-monolith-layered-architecture.md)
+   - [ADR-0002: Đồng bộ Real-time WebSocket STOMP & Transactional Events](adr/ADR-0002-stomp-websocket-realtime-sync.md)
+   - [ADR-0003: Kiểm soát đồng thời bằng Khóa lạc quan `@Version`](adr/ADR-0003-optimistic-locking-concurrency.md)
+   - [ADR-0004: Sinh mã VietQR động chuẩn NAPAS EMVCo (CRC16-CCITT)](adr/ADR-0004-vietqr-emvco-dynamic-payload.md)
+3. **[schema.sql](schema.sql) & [seed.sql](seed.sql):**
+   - Lược đồ 10 bảng chuẩn 3NF tương thích PostgreSQL 16 & H2, kèm dữ liệu mẫu (4 tài khoản phân quyền, 3 khu vực, 20 bàn, 5 danh mục, 24 món ăn, 5 hóa đơn lịch sử).
+4. **[UI_UX_EVALUATION.md](UI_UX_EVALUATION.md):**
+   - Phân tích người dùng/tác vụ, hệ thống thiết kế *"Tactile Bistro Command"*, Wireframe Lo-Fi POS & KDS, và kết quả đánh giá 5 thuộc tính sử dụng theo `Bai 07_2` P32.

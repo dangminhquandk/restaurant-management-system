@@ -1,27 +1,23 @@
-# TÀI LIỆU ĐẢM BẢO CHẤT LƯỢNG, KIỂM THỬ & BẢO TRÌ (QA — SPRINT 2–4)
+# HỒ SƠ ĐẢM BẢO CHẤT LƯỢNG, KIỂM THỬ & BẢO TRÌ PHẦN MỀM (QA — BL-05: v1.0.0)
 
-> **Học phần:** IT3180 — Chương 8 (Xây dựng & Code Review) & Chương 9 (Đảm bảo Chất lượng & Bảo trì)  
-> **Mốc Baseline mục tiêu:** Chạy song song từ Sprint 2 (`BL-03`) và đóng băng cuối Sprint 4 (`BL-05: v1.0.0`)  
-> **Chủ trì:** Bùi Đại Nghĩa *(QA Lead)* — Nguyên tắc bắt buộc: **Người viết test / kiểm thử độc lập với tác giả viết module đó** (`Bai 09` P11).
+> **Học phần:** IT3180 — Chương 8 (Xây dựng & Tái cấu trúc Mã nguồn) & Chương 9 (Đảm bảo Chất lượng & Bảo trì)  
+> **Mốc Baseline bàn giao:** `BL-05 (v1.0.0)` — Đã nghiệm thu tự động trên CI & Docker E2E  
+> **Chủ trì:** Bùi Đại Nghĩa *(QA Lead)* — Tuân thủ nguyên tắc kiểm thử chéo độc lập với tác giả viết module (`Bai 09` trang 11).
 
 ---
 
-## Danh mục Hồ sơ Sẽ Bàn giao tại Thư mục này
+## Danh mục Tài liệu Đã Bàn giao Chính thức
 
-1. **`STP_v1.0.md` — Kế hoạch & Kết quả Kiểm thử Phần mềm (Software Test Plan):**
-   - **Mô hình V&V 4 mức (`Bai 09` P5–7):** Kiểm thử đơn vị (JUnit 5 / Vitest) → Kiểm thử tích hợp (Spring `MockMvc` / WebSocket STOMP / Concurrency) → Kiểm thử hệ thống (E2E POS–KDS–VietQR) → Kiểm thử xác nhận (nghiệm thu theo `SRS_v1.0.md`).
-   - **Kiểm thử Hộp trắng (`Bai 09` P13–27):**
-     - Vẽ **Đồ thị Luồng Điều khiển (Control Flow Graph — CFG)** cho tối thiểu 3 hàm nghiệp vụ cốt lõi:
-       1. `TableService.openTable()` (kiểm soát trạng thái & Optimistic Locking).
-       2. `OrderItemStateMachine.transition()` (ràng buộc chuyển trạng thái món KDS).
-       3. `PaymentService.calculateAndSettle()` (tính tổng tiền, kiểm tra điều kiện thanh toán).
-     - Bảng ca kiểm thử chứng minh **Statement Coverage** và **Branch Coverage** kèm ảnh/số liệu báo cáo **JaCoCo (mục tiêu ≥ 75% cho tầng Service)**.
-   - **Kiểm thử Hộp đen (`Bai 09` P28–35):**
-     - **Phân vùng tương đương (Equivalence Partitioning) & Giá trị biên (BVA):** Giá món ăn (`< 0`, `0`, `> 0`), số lượng gọi món (`0`, `1`, `99`), khoảng ngày báo cáo.
-     - **Bảng quyết định (Decision Table):** Quy tắc hủy món theo 2 điều kiện `(Trạng thái món: PENDING / COOKING / READY) × (Vai trò: STAFF / ADMIN)` và quy tắc xóa bàn `(Đang có khách / Trống)`.
-     - **Kiểm thử Chuyển đổi Trạng thái (State Transition Testing):** Kiểm thử toàn bộ cung hợp lệ và cung cấm trên máy trạng thái `DINING_TABLES` và `ORDER_ITEMS`.
-2. **`MAINTENANCE_LOG.md` — Kế hoạch Bảo trì & Biểu Quản lý Bảo trì (`Bai 09` P41–52):**
-   - Kế hoạch bảo trì theo 4 hình thái: **Tu chỉnh** (sửa bug), **Thích nghi** (cập nhật môi trường Docker/PostgreSQL/trình duyệt), **Cải tiến** (mở rộng voucher/tách bill), **Phòng ngừa** (refactoring & tối ưu query).
-   - **Biểu quản lý bảo trì & sửa lỗi** đúng chuẩn mẫu `Bai 09` P48 gồm 6 cột bắt buộc: *Ngày tháng/giờ, Nguyên nhân, Tóm tắt cách khắc phục, Chi tiết khắc phục & Hiệu ứng làn sóng (Regression check), Người làm bảo trì, Số công*.
-3. **Bằng chứng Code Review & Refactoring (`Bai 08` P33–45):**
-   - Tổng hợp danh sách các Pull Request có thực hiện **Code Review Checklist** và ít nhất 2–3 PR `refactor:` kèm minh chứng toàn bộ unit/integration test vẫn pass sau refactoring.
+1. **[STP_v1.0.md](file:///Users/quandkh/Documents/Learning%20Hub/restaurant-management-system/docs/04-testing-qa/STP_v1.0.md) — Kế hoạch & Báo cáo Kết quả Kiểm thử Phần mềm (Software Test Plan & Report):**
+   - Chiến lược V&V 4 mức: Unit Testing (JUnit 5 + Mockito, Vitest) → Integration Testing (MockMvc, Optimistic Locking 5 luồng, STOMP Latency `< 1s`) → System E2E Testing (Docker + Chrome thật) → Validation Testing (đối chiếu 100% `FR-01..22` và `NFR-01..08`).
+   - **Kiểm thử Hộp trắng (`Bai 09` P13–27):** Đồ thị luồng điều khiển (**CFG**), độ phức tạp Cyclomatic $V(G)$ và tập đường đi cơ sở cho 3 hàm cốt lõi (`TableService.openTable`, `OrderItemStateMachine.validateTransition`, `PaymentService.confirmPayment`).
+   - **Số liệu độ phủ JaCoCo thực tế (`jacoco:check` enforced):**
+     - `com.hust.rms.domain.state`: **100.0% Line (`39/39`)**, **100.0% Branch (`32/32`)**
+     - `com.hust.rms.domain.payment`: **100.0% Line (`28/28`)**, **100.0% Branch (`6/6`)**
+     - `com.hust.rms.service`: **97.7% Line (`823/842`)**, **90.8% Branch (`227/250`)**
+   - **Kiểm thử Hộp đen (`Bai 09` P28–35):** Phân vùng tương đương (EP), Giá trị biên (BVA), Bảng quyết định (Decision Table) và Kiểm thử chuyển đổi trạng thái (State Transition) với **45 ca kiểm thử thực thi đạt `100% PASS`**.
+
+2. **[MAINTENANCE_LOG.md](file:///Users/quandkh/Documents/Learning%20Hub/restaurant-management-system/docs/04-testing-qa/MAINTENANCE_LOG.md) — Kế hoạch Bảo trì & Biểu Quản lý Bảo trì (`Bai 09` P41–52):**
+   - Chiến lược bảo trì theo 4 hình thái (Tu chỉnh, Thích nghi, Hoàn thiện, Phòng ngừa).
+   - Bằng chứng tái cấu trúc mã nguồn Chương 8 qua 2 PR độc lập (`PR #8` & `PR #9`) bảo toàn 100% hành vi nghiệp vụ.
+   - Biểu quản lý bảo trì thực tế đủ **6 cột bắt buộc** theo đúng mẫu bài giảng `Bai 09` trang 48.

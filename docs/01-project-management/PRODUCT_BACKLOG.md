@@ -64,8 +64,8 @@
 | **T1.7** | US-02 | Đặc tả 22 Functional Requirements (`FR-01..22`), 8 NFR định lượng & 6 Use Case chi tiết | Nghĩa, Quân | 8h | `Done` |
 | **T1.8** | US-02 | Vẽ bộ mô hình đặc tả WebApp: DFD (0/1), Use Case, Sequence (3 luồng), State FSM (2 máy), Activity/Swimlane, ERD, Navigation Map | Quân, Nghĩa | 8h | `Done` |
 | **T1.9** | US-02 | Xây dựng Ma trận Truy xuất Yêu cầu (`RTM`) & kiểm tra chéo tính nhất quán toàn tài liệu | Nghĩa | 4h | `Done` |
-| **T1.10** | US-03 | Phân tích người dùng/tác vụ (`Bai 07_2`) và phác thảo Wireframe Lo-Fi màn hình POS & KDS | Hải | 8h | `In Progress` |
-| **T1.11** | US-03 | Rà soát tổng thể (FTR) hồ sơ `BL-01` và gắn tag `v0.1.0-srs` | Toàn nhóm | 4h | `Todo` |
+| **T1.10** | US-03 | Phân tích người dùng/tác vụ (`Bai 07_2`) và phác thảo Wireframe Lo-Fi màn hình POS & KDS | Hải | 8h | `Done` |
+| **T1.11** | US-03 | Rà soát tổng thể (FTR) hồ sơ `BL-01` và gắn tag `v0.1.0-srs` | Toàn nhóm | 4h | `Done` |
 
 ---
 
@@ -100,3 +100,16 @@ xychart-beta
 ### 5.2 Sprint 1 Retrospective (Cải tiến quy trình)
 - **Điểm làm tốt (Keep):** Thống nhất sớm phạm vi MoSCoW giúp tránh ôm đồm tính năng thừa (tích điểm, đa chi nhánh); chia rõ vai trò CNPM song song với vai trò kỹ thuật.
 - **Điểm cần khắc phục (Improve):** Ở giai đoạn đầu có tình trạng dời file thủ công (`README.md`, `LICENSE`) làm sai cấu trúc root và mới chỉ có 1 người commit. Từ Sprint 2, **bắt buộc cả 4 thành viên làm việc trên nhánh `feature/*` riêng và tạo PR qua review chéo**.
+
+---
+
+## 6. Tổng kết Nghiệm thu Toàn Dự Án qua Sprint 2 – Sprint 4 (`BL-02` → `BL-05: v1.0.0`)
+
+| Sprint & Baseline | Các User Story hoàn thành | Tổng SP đạt được | Minh chứng SCM & Kiểm thử tự động |
+| :--- | :--- | :---: | :--- |
+| **Đầu Sprint 2 (`BL-02: v0.2.0-design`)** | `US-03` (hoàn tất thiết kế UI/UX + SDD + 4 ADR + DDL 3NF) | `5 SP` | Issue `#1`, PR `#2`, Tag `v0.2.0-design` (`0` lỗi SQL trên PostgreSQL 16) |
+| **Sprint 2 (`BL-03: v0.3.0-alpha`)** | `US-04`, `US-05`, `US-06`, `US-07`, `US-08`, `US-09`, `US-10` | `29 SP` | Issue `#3`, PR `#4`, Tag `v0.3.0-alpha` (5 luồng mở bàn đồng thời `@Version` pass 100%) |
+| **Sprint 3 (`BL-04: v0.9.0-rc`)** | `US-11`, `US-12`, `US-13`, `US-14`, `US-15`, `US-16`, `US-17`, `US-18`, `US-19`, `US-20` | `47 SP` | Issue `#5`, PR `#6`, Tag `v0.9.0-rc` (STOMP `< 200ms`, CRC16 `0x29B1`, báo cáo doanh thu) |
+| **Sprint 4 (`BL-05: v1.0.0`)** | `US-22` + 2 PR Refactoring Chương 8 (`US-21` `Could-have` chuyển sang lộ trình `v1.1` theo đúng MoSCoW) | `8 SP` | Issues `#7` & `#10`, PR `#8`, `#9` & Release `v1.0.0` (**97.7% Line / 90.8% Branch**, Docker 26s) |
+
+> **Kết quả chung cuộc:** Hoàn thành **100% (`21/21` User Stories cam kết nhóm `Must-have` & `Should-have`, tương ứng `100/100 SP` cam kết)**.
