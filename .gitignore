@@ -84,4 +84,6 @@ Desktop.ini
 Slide/
 Tài liệu/
 docs/05-presentations/Restaurant Management System.pdf
+docs/06-*/
+.agents/
 *.bak
