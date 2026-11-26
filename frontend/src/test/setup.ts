@@ -26,8 +26,6 @@ function createMemoryStorage(): Storage {
   };
 }
 
-// Node 25+ defines an inert global localStorage object unless --localstorage-file has a path.
-// Ensure standard Web Storage methods exist across both Node 20 (CI) and Node 25 (local).
 if (
   typeof globalThis.localStorage === 'undefined' ||
   typeof globalThis.localStorage.getItem !== 'function' ||
@@ -46,6 +44,62 @@ if (
       configurable: true,
     });
   }
+}
+
+// Prevent jsdom WebSocket from attempting real TCP connections to localhost during unit tests.
+class MockTestWebSocket {
+  static readonly CONNECTING = 0;
+  static readonly OPEN = 1;
+  static readonly CLOSING = 2;
+  static readonly CLOSED = 3;
+
+  readonly CONNECTING = 0;
+  readonly OPEN = 1;
+  readonly CLOSING = 2;
+  readonly CLOSED = 3;
+
+  url: string;
+  readyState = MockTestWebSocket.CONNECTING;
+  protocol = '';
+  extensions = '';
+  bufferedAmount = 0;
+  binaryType: BinaryType = 'blob';
+
+  onopen: ((ev: Event) => void) | null = null;
+  onclose: ((ev: CloseEvent) => void) | null = null;
+  onerror: ((ev: Event) => void) | null = null;
+  onmessage: ((ev: MessageEvent) => void) | null = null;
+
+  constructor(url: string | URL) {
+    this.url = String(url);
+  }
+
+  send(): void {
+    // No-op in unit test environment
+  }
+
+  close(): void {
+    this.readyState = MockTestWebSocket.CLOSED;
+  }
+
+  addEventListener(): void {}
+  removeEventListener(): void {}
+  dispatchEvent(): boolean {
+    return true;
+  }
+}
+
+Object.defineProperty(globalThis, 'WebSocket', {
+  value: MockTestWebSocket,
+  writable: true,
+  configurable: true,
+});
+if (typeof window !== 'undefined') {
+  Object.defineProperty(window, 'WebSocket', {
+    value: MockTestWebSocket,
+    writable: true,
+    configurable: true,
+  });
 }
 
 afterEach(() => {

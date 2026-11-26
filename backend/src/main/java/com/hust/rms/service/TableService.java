@@ -1,41 +1,41 @@
 package com.hust.rms.service;
 
+import com.hust.rms.common.exception.BadRequestException;
 import com.hust.rms.common.exception.ConflictException;
 import com.hust.rms.common.exception.ResourceNotFoundException;
 import com.hust.rms.domain.entity.Area;
 import com.hust.rms.domain.entity.DiningTable;
 import com.hust.rms.domain.entity.Order;
+import com.hust.rms.domain.entity.OrderItem;
 import com.hust.rms.domain.entity.User;
+import com.hust.rms.domain.enums.OrderItemStatus;
 import com.hust.rms.domain.enums.OrderStatus;
 import com.hust.rms.domain.enums.TableStatus;
 import com.hust.rms.domain.state.TableStateMachine;
-import com.hust.rms.dto.table.DiningTableDto;
-import com.hust.rms.dto.table.OpenTableRequest;
-import com.hust.rms.dto.table.OpenTableResponse;
-import com.hust.rms.dto.table.TableUpsertRequest;
+import com.hust.rms.dto.order.OrderDto;
+import com.hust.rms.dto.order.OrderItemDto;
+import com.hust.rms.dto.table.*;
+import com.hust.rms.event.OrderItemsChangedEvent;
 import com.hust.rms.event.TableChangedEvent;
-import com.hust.rms.repository.AreaRepository;
-import com.hust.rms.repository.DiningTableRepository;
-import com.hust.rms.repository.OrderRepository;
-import com.hust.rms.repository.UserRepository;
+import com.hust.rms.repository.*;
 import com.hust.rms.security.RmsUserPrincipal;
 import com.hust.rms.service.mapper.DtoMapper;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Manages dining table floor-map state, optimistic-locked table opening, and CRUD operations.
+ * HUST IT3180 RMS — Quản lý sơ đồ bàn, mở bàn khóa lạc quan @Version, chuyển bàn và gộp bàn ACID (FR-04..07).
  */
 @Service
 public class TableService {
@@ -46,8 +46,10 @@ public class TableService {
     private final DiningTableRepository diningTableRepository;
     private final AreaRepository areaRepository;
     private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepo;
     private final UserRepository userRepository;
     private final TableStateMachine tableStateMachine;
+    private final AuditLogService auditLogSvc;
     private final ApplicationEventPublisher eventPublisher;
     private final AtomicInteger orderSeq = new AtomicInteger(0);
 
@@ -55,15 +57,19 @@ public class TableService {
             DiningTableRepository diningTableRepository,
             AreaRepository areaRepository,
             OrderRepository orderRepository,
+            OrderItemRepository orderItemRepo,
             UserRepository userRepository,
             TableStateMachine tableStateMachine,
+            AuditLogService auditLogSvc,
             ApplicationEventPublisher eventPublisher
     ) {
         this.diningTableRepository = diningTableRepository;
         this.areaRepository = areaRepository;
         this.orderRepository = orderRepository;
+        this.orderItemRepo = orderItemRepo;
         this.userRepository = userRepository;
         this.tableStateMachine = tableStateMachine;
+        this.auditLogSvc = auditLogSvc;
         this.eventPublisher = eventPublisher;
     }
 
@@ -181,6 +187,202 @@ public class TableService {
         return DtoMapper.toDiningTableDto(saved, null);
     }
 
+    @Transactional
+    public OrderDto transferTable(Long sourceTableId, TransferTableRequest req, RmsUserPrincipal actor) {
+        Long targetTableId = req.targetTableId();
+        if (Objects.equals(sourceTableId, targetTableId)) {
+            throw new BadRequestException("SAME_TABLE_TRANSFER", "Bàn đích không được trùng với bàn nguồn.");
+        }
+
+        List<Long> orderedIds = Stream.of(sourceTableId, targetTableId).sorted().toList();
+        Map<Long, DiningTable> tableMap = new LinkedHashMap<>();
+        for (Long tid : orderedIds) {
+            tableMap.put(tid, findTableWithAreaOrThrow(tid));
+        }
+
+        DiningTable srcTable = tableMap.get(sourceTableId);
+        DiningTable dstTable = tableMap.get(targetTableId);
+
+        Order openOrder = orderRepository.findActiveDetailByTableId(sourceTableId)
+                .orElseThrow(() -> new BadRequestException(
+                        "SOURCE_ORDER_NOT_OPEN",
+                        "Bàn nguồn hiện không có đơn phục vụ đang mở."
+                ));
+
+        if (dstTable.getStatus() != TableStatus.AVAILABLE
+                || orderRepository.existsByTableIdAndStatus(targetTableId, OrderStatus.OPEN)) {
+            throw new ConflictException("TARGET_TABLE_NOT_AVAILABLE", "Bàn đích hiện không ở trạng thái trống.");
+        }
+
+        tableStateMachine.validateTransition(srcTable.getStatus(), TableStatus.AVAILABLE);
+        tableStateMachine.validateTransition(dstTable.getStatus(), TableStatus.OCCUPIED);
+
+        srcTable.setStatus(TableStatus.AVAILABLE);
+        dstTable.setStatus(TableStatus.OCCUPIED);
+        diningTableRepository.saveAndFlush(srcTable);
+        DiningTable savedDst = diningTableRepository.saveAndFlush(dstTable);
+
+        openOrder.setTable(savedDst);
+        Order savedOrder = orderRepository.saveAndFlush(openOrder);
+
+        User userActor = userRepository.findById(actor.getId()).orElse(null);
+        auditLogSvc.log(
+                userActor,
+                "TABLE_TRANSFERRED",
+                "ORDERS",
+                savedOrder.getId(),
+                String.format("Chuyển đơn %s từ bàn %s sang bàn %s",
+                        savedOrder.getOrderCode(), srcTable.getName(), savedDst.getName())
+        );
+
+        eventPublisher.publishEvent(TableChangedEvent.updated(srcTable.getId(), TableStatus.AVAILABLE));
+        eventPublisher.publishEvent(TableChangedEvent.updated(savedDst.getId(), TableStatus.OCCUPIED));
+        return DtoMapper.toOrderDto(savedOrder);
+    }
+
+    @Transactional
+    public OrderDto mergeTables(MergeTablesRequest req, RmsUserPrincipal actor) {
+        if (req.sourceTableIds() == null || req.sourceTableIds().isEmpty()) {
+            throw new BadRequestException("EMPTY_SOURCE_TABLES", "Danh sách bàn nguồn không được rỗng.");
+        }
+        List<Long> srcIds = req.sourceTableIds().stream()
+                .filter(Objects::nonNull)
+                .distinct()
+                .sorted()
+                .toList();
+        Long dstId = req.targetTableId();
+        if (srcIds.isEmpty() || srcIds.contains(dstId)) {
+            throw new BadRequestException(
+                    "INVALID_MERGE_TABLES",
+                    "Danh sách bàn nguồn không hợp lệ hoặc chứa bàn đích."
+            );
+        }
+
+        List<Long> allSortedIds = Stream.concat(srcIds.stream(), Stream.of(dstId))
+                .distinct()
+                .sorted()
+                .toList();
+        Map<Long, DiningTable> lockedTables = new LinkedHashMap<>();
+        for (Long tid : allSortedIds) {
+            lockedTables.put(tid, findTableWithAreaOrThrow(tid));
+        }
+
+        DiningTable dstTable = lockedTables.get(dstId);
+        if (dstTable.getStatus() == TableStatus.CLEANING) {
+            throw new ConflictException("TARGET_TABLE_CLEANING", "Không thể gộp đơn vào bàn đang chờ dọn dẹp.");
+        }
+
+        List<Order> srcOrders = new ArrayList<>();
+        List<String> srcTableNames = new ArrayList<>();
+        for (Long sid : srcIds) {
+            DiningTable sTable = lockedTables.get(sid);
+            Order sOrder = orderRepository.findActiveDetailByTableId(sid)
+                    .orElseThrow(() -> new ConflictException(
+                            "SOURCE_ORDER_NOT_OPEN",
+                            "Bàn nguồn " + sTable.getName() + " không có đơn đang mở để gộp."
+                    ));
+            srcOrders.add(sOrder);
+            srcTableNames.add(sTable.getName());
+        }
+
+        User userActor = userRepository.findById(actor.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("USER_NOT_FOUND", "Không tìm thấy nhân viên."));
+
+        Order dstOrder;
+        if (dstTable.getStatus() == TableStatus.AVAILABLE) {
+            tableStateMachine.validateTransition(dstTable.getStatus(), TableStatus.OCCUPIED);
+            dstTable.setStatus(TableStatus.OCCUPIED);
+            dstTable = diningTableRepository.saveAndFlush(dstTable);
+
+            Order created = new Order();
+            created.setOrderCode(generateUniqueOrderCode());
+            created.setTable(dstTable);
+            created.setStaff(userActor);
+            created.setStatus(OrderStatus.OPEN);
+            created.setTotalAmount(BigDecimal.ZERO);
+            dstOrder = orderRepository.saveAndFlush(created);
+        } else {
+            dstOrder = orderRepository.findActiveDetailByTableId(dstId)
+                    .orElseThrow(() -> new ConflictException(
+                            "TARGET_ORDER_NOT_OPEN",
+                            "Bàn đích hiện không có đơn phục vụ đang mở."
+                    ));
+        }
+
+        Long dstOrderId = dstOrder.getId();
+        TableStatus finalDstTableStatus = dstTable.getStatus();
+        int nextBatchNo = dstOrder.getItems().stream()
+                .mapToInt(OrderItem::getBatchNo)
+                .max()
+                .orElse(0) + 1;
+
+        List<Long> movedItemIds = new ArrayList<>();
+        for (Order sOrder : srcOrders) {
+            for (OrderItem oi : sOrder.getItems()) {
+                if (oi.getStatus() != OrderItemStatus.CANCELLED) {
+                    movedItemIds.add(oi.getId());
+                }
+            }
+        }
+
+        Instant now = Instant.now();
+        for (Order sOrder : srcOrders) {
+            sOrder.setStatus(OrderStatus.CANCELLED);
+            sOrder.setClosedAt(now);
+            sOrder.setTotalAmount(BigDecimal.ZERO);
+            orderRepository.saveAndFlush(sOrder);
+        }
+        for (Long sid : srcIds) {
+            DiningTable sTable = lockedTables.get(sid);
+            tableStateMachine.validateTransition(sTable.getStatus(), TableStatus.AVAILABLE);
+            sTable.setStatus(TableStatus.AVAILABLE);
+            diningTableRepository.saveAndFlush(sTable);
+        }
+
+        if (!movedItemIds.isEmpty()) {
+            orderItemRepo.reassignItemsToOrder(dstOrder, nextBatchNo, now, movedItemIds);
+        }
+
+        Order reloadedDst = orderRepository.findDetailById(dstOrderId)
+                .orElseThrow(() -> new ResourceNotFoundException("ORDER_NOT_FOUND", "Không tìm thấy đơn đích sau khi gộp."));
+        reloadedDst.setTotalAmount(OrderService.recalculateTotalAmount(reloadedDst));
+        Order savedDstOrder = orderRepository.saveAndFlush(reloadedDst);
+
+        User freshActor = userRepository.findById(actor.getId()).orElse(null);
+        auditLogSvc.log(
+                freshActor,
+                "TABLES_MERGED",
+                "ORDERS",
+                savedDstOrder.getId(),
+                String.format("Gộp các bàn [%s] vào bàn %s (Đơn %s)",
+                        String.join(", ", srcTableNames),
+                        savedDstOrder.getTable().getName(),
+                        savedDstOrder.getOrderCode())
+        );
+
+        for (Long sid : srcIds) {
+            eventPublisher.publishEvent(TableChangedEvent.updated(sid, TableStatus.AVAILABLE));
+        }
+        eventPublisher.publishEvent(TableChangedEvent.updated(dstId, finalDstTableStatus));
+
+        Set<Long> movedIdSet = new HashSet<>(movedItemIds);
+        List<OrderItemDto> movedDtos = savedDstOrder.getItems().stream()
+                .filter(i -> movedIdSet.contains(i.getId()))
+                .map(DtoMapper::toOrderItemDto)
+                .toList();
+        eventPublisher.publishEvent(new OrderItemsChangedEvent(
+                "ORDER_ITEMS_ADDED",
+                savedDstOrder.getId(),
+                savedDstOrder.getOrderCode(),
+                savedDstOrder.getTable().getId(),
+                savedDstOrder.getTable().getName(),
+                movedDtos,
+                now
+        ));
+
+        return DtoMapper.toOrderDto(savedDstOrder);
+    }
+
     private String generateUniqueOrderCode() {
         String datePart = LocalDate.now(RESTAURANT_ZONE).format(ORDER_DATE_FMT);
         while (true) {
@@ -202,3 +404,4 @@ public class TableService {
                 .orElseThrow(() -> new ResourceNotFoundException("AREA_NOT_FOUND", "Không tìm thấy khu vực."));
     }
 }
+

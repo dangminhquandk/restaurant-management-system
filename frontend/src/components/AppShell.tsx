@@ -10,9 +10,13 @@ import {
   UtensilsCrossed,
   Users,
 } from 'lucide-react';
+import { useSoundAlert } from '../hooks/useSoundAlert';
 import { useAuth } from '../store/AuthContext';
+import { useRealtime, useStompSubscription } from '../store/RealtimeContext';
+import { useToast } from '../store/ToastContext';
+import type { PosNotificationStompEvent, Role } from '../types/api';
 import { getHomeRouteForRole, getRoleDisplayLabel } from '../utils/navigation';
-import type { Role } from '../types/api';
+import { ConnectionStatusBadge, ConnectionStatusBanner } from './ConnectionStatusBanner';
 
 interface NavItem {
   to: string;
@@ -60,7 +64,7 @@ const NAV_ITEMS: NavItem[] = [
   },
   {
     to: '/admin/dashboard',
-    label: 'Báo cáo',
+    label: 'Thống kê & Cấu hình',
     icon: BarChart3,
     roles: ['ADMIN'],
   },
@@ -68,6 +72,9 @@ const NAV_ITEMS: NavItem[] = [
 
 export function AppShell() {
   const { user, logout } = useAuth();
+  const { connectionState } = useRealtime();
+  const { showToast } = useToast();
+  const { playChime } = useSoundAlert();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -75,6 +82,21 @@ export function AppShell() {
   const visibleNavItems = NAV_ITEMS.filter((item) =>
     user ? item.roles.includes(user.role) : false
   );
+
+  // Real-time POS notification when Kitchen marks a dish READY (FR-14)
+  useStompSubscription<PosNotificationStompEvent>('/topic/pos/notifications', (payload) => {
+    if (!user || user.role === 'KITCHEN') return;
+    if (payload?.eventType === 'ITEM_READY' || payload?.message) {
+      playChime();
+      showToast({
+        title: `Món sẵn sàng phục vụ — Bàn ${payload.tableName}`,
+        message:
+          payload.message ||
+          `Bàn ${payload.tableName}: ${payload.quantity}x ${payload.menuItemName} đã nấu xong!`,
+        variant: 'success',
+      });
+    }
+  });
 
   const handleLogout = () => {
     logout();
@@ -88,7 +110,7 @@ export function AppShell() {
       }`}
     >
       <header
-        className={`sticky top-0 z-30 border-b backdrop-blur-md ${
+        className={`no-print sticky top-0 z-30 border-b backdrop-blur-md ${
           isKdsMode
             ? 'border-slate-800 bg-slate-900/95 text-slate-100'
             : 'border-stone-200/90 bg-white/95 text-stone-900'
@@ -156,6 +178,10 @@ export function AppShell() {
           </nav>
 
           <div className="order-2 flex items-center gap-2.5 lg:order-3">
+            <div className="hidden xl:block">
+              <ConnectionStatusBadge state={connectionState} dark={isKdsMode} />
+            </div>
+
             {user && (
               <div
                 className={`hidden sm:flex flex-col items-end rounded-xl border px-3 py-1.5 text-right ${
@@ -197,6 +223,8 @@ export function AppShell() {
           </div>
         </div>
       </header>
+
+      <ConnectionStatusBanner state={connectionState} />
 
       <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 py-5 lg:px-6">
         <Outlet />

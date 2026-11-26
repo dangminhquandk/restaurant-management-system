@@ -316,3 +316,45 @@ export interface AuditLogDto {
   detail: string | null;
   createdAt: string;
 }
+
+// --- WebSocket STOMP Event Payloads (SDD_v1.0.md Section 5.3) ---
+export type StompConnectionState = 'CONNECTING' | 'CONNECTED' | 'DISCONNECTED';
+
+export interface TableStompEvent {
+  eventType: string;
+  tableId: number;
+  status: TableStatus;
+  timestamp: string;
+}
+
+export interface KdsOrderStompEvent {
+  eventType: 'ORDER_ITEMS_ADDED' | 'ITEM_STATUS_CHANGED' | 'ITEM_CANCELLED' | string;
+  orderId: number;
+  orderCode: string;
+  tableId?: number;
+  tableName: string;
+  items?: KdsItemDto[];
+  timestamp: string;
+}
+
+export interface PosNotificationStompEvent {
+  eventType: 'ITEM_READY' | string;
+  orderId: number;
+  orderCode: string;
+  tableId: number;
+  tableName: string;
+  itemId: number;
+  menuItemName: string;
+  quantity: number;
+  message: string;
+  timestamp: string;
+}
+
+export interface MenuAvailabilityStompEvent {
+  eventType: 'MENU_AVAILABILITY_CHANGED' | string;
+  menuItemId: number;
+  menuItemName: string;
+  isAvailable: boolean;
+  timestamp: string;
+}
+

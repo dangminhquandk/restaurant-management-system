@@ -9,6 +9,7 @@ import com.hust.rms.domain.entity.OrderItem;
 import com.hust.rms.domain.entity.Payment;
 import com.hust.rms.domain.entity.User;
 import com.hust.rms.dto.area.AreaDto;
+import com.hust.rms.dto.kds.KdsItemDto;
 import com.hust.rms.dto.menu.CategoryDto;
 import com.hust.rms.dto.menu.MenuItemDto;
 import com.hust.rms.dto.order.OrderDto;
@@ -143,6 +144,27 @@ public final class DtoMapper {
                 payment != null ? payment.getMethod() : null,
                 order.getCreatedAt(),
                 order.getClosedAt()
+        );
+    }
+
+    public static KdsItemDto toKdsItemDto(OrderItem item) {
+        Order order = item.getOrder();
+        DiningTable table = order.getTable();
+        return new KdsItemDto(
+                item.getId(),
+                order.getId(),
+                order.getOrderCode(),
+                table.getId(),
+                table.getName(),
+                table.getArea().getName(),
+                item.getMenuItem().getId(),
+                item.getMenuItem().getName(),
+                item.getBatchNo(),
+                item.getQuantity(),
+                item.getNote(),
+                item.getStatus(),
+                item.getCreatedAt(),
+                item.getUpdatedAt()
         );
     }
 

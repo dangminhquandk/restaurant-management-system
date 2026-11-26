@@ -12,6 +12,7 @@ import { FloorMapPage } from './features/pos/FloorMapPage';
 import { OrderHistoryPage } from './features/pos/OrderHistoryPage';
 import { OrderPadPage } from './features/pos/OrderPadPage';
 import { AuthProvider, useAuth } from './store/AuthContext';
+import { RealtimeProvider } from './store/RealtimeContext';
 import { ToastProvider } from './store/ToastContext';
 import { getHomeRouteForRole } from './utils/navigation';
 
@@ -50,6 +51,8 @@ export function AppRoutes() {
             <Route path="/admin/tables" element={<AdminTablesPage />} />
             <Route path="/admin/users" element={<AdminUsersPage />} />
             <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+            <Route path="/admin/settings" element={<AdminDashboardPage initialTab="SETTINGS" />} />
+            <Route path="/admin/audit-logs" element={<AdminDashboardPage initialTab="AUDIT" />} />
           </Route>
         </Route>
       </Route>
@@ -64,7 +67,9 @@ export function App() {
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <AuthProvider>
         <ToastProvider>
-          <AppRoutes />
+          <RealtimeProvider>
+            <AppRoutes />
+          </RealtimeProvider>
         </ToastProvider>
       </AuthProvider>
     </BrowserRouter>
