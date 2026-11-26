@@ -13,7 +13,7 @@
 
     <groupId>com.hust</groupId>
     <artifactId>rms-backend</artifactId>
-    <version>0.3.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>rms-backend</name>
     <description>HUST IT3180 Restaurant Management System Backend</description>
 
@@ -144,6 +144,37 @@
                                 <format>CSV</format>
                                 <format>HTML</format>
                             </formats>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>jacoco-check</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <include>com/hust/rms/service/*</include>
+                                <include>com/hust/rms/domain/state/*</include>
+                                <include>com/hust/rms/domain/payment/*</include>
+                            </includes>
+                            <rules>
+                                <rule>
+                                    <element>PACKAGE</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.80</minimum>
+                                        </limit>
+                                        <limit>
+                                            <counter>BRANCH</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.75</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
                         </configuration>
                     </execution>
                 </executions>
