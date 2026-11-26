@@ -63,3 +63,30 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Thermal 80mm / A5 Clean Receipt Print Layout (FR-18) */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .no-print,
+  header,
+  nav,
+  [aria-live="polite"] {
+    display: none !important;
+  }
+
+  .printable-receipt-root {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 80mm !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+}
+

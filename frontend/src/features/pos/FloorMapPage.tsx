@@ -12,8 +12,9 @@ import {
 } from 'lucide-react';
 import { floorApi } from '../../api/floorApi';
 import { TableStatusBadge } from '../../components/StatusBadge';
+import { useStompSubscription } from '../../store/RealtimeContext';
 import { useToast } from '../../store/ToastContext';
-import type { AreaDto, DiningTableDto, TableStatus } from '../../types/api';
+import type { AreaDto, DiningTableDto, TableStatus, TableStompEvent } from '../../types/api';
 import { parseApiError } from '../../utils/errors';
 import { formatVnd } from '../../utils/format';
 
@@ -107,6 +108,17 @@ export function FloorMapPage() {
   useEffect(() => {
     void loadFloorData(false);
   }, [loadFloorData]);
+
+  // Live STOMP Floor Map sync + automatic snapshot refresh on reconnect (NFR-01, NFR-04)
+  useStompSubscription<TableStompEvent>(
+    '/topic/tables',
+    () => {
+      void reloadTablesOnly().catch(() => undefined);
+    },
+    () => {
+      void loadFloorData(true);
+    }
+  );
 
   const areaScopedTables = useMemo(() => {
     if (selectedAreaId === 'ALL') return tables;

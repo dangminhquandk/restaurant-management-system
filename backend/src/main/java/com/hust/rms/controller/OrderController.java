@@ -3,6 +3,7 @@ package com.hust.rms.controller;
 import com.hust.rms.domain.enums.OrderStatus;
 import com.hust.rms.domain.enums.PaymentMethod;
 import com.hust.rms.dto.order.*;
+import com.hust.rms.security.RmsUserPrincipal;
 import com.hust.rms.service.OrderService;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
@@ -10,10 +11,11 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * HUST IT3180 RMS — Boundary endpoint cho Đơn gọi món tại bàn & Lịch sử hóa đơn (FR-09, FR-10, FR-18).
+ * HUST IT3180 RMS — Boundary endpoint cho Đơn gọi món tại bàn, Hủy món & Yêu cầu thanh toán (FR-09..11, FR-18).
  */
 @RestController
 public class OrderController {
@@ -53,4 +55,22 @@ public class OrderController {
     public OrderDto submitKitchenBatch(@PathVariable Long id, @Valid @RequestBody AddOrderItemsRequest payload) {
         return orderSvc.addItemsToOrder(id, payload);
     }
+
+    @PostMapping("/api/v1/orders/{id}/items/{itemId}/cancel")
+    @PreAuthorize("hasAnyRole('STAFF','KITCHEN','ADMIN')")
+    public OrderDto cancelDispatchedItem(
+            @PathVariable Long id,
+            @PathVariable Long itemId,
+            @Valid @RequestBody(required = false) CancelOrderItemRequest payload,
+            @AuthenticationPrincipal RmsUserPrincipal actor
+    ) {
+        return orderSvc.cancelOrderItem(id, itemId, payload, actor);
+    }
+
+    @PostMapping("/api/v1/orders/{id}/request-payment")
+    @PreAuthorize("hasAnyRole('STAFF','ADMIN')")
+    public OrderDto signalWaitingPayment(@PathVariable Long id) {
+        return orderSvc.requestPayment(id);
+    }
 }
+

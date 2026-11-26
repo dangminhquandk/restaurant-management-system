@@ -1,5 +1,6 @@
 package com.hust.rms.controller;
 
+import com.hust.rms.dto.order.OrderDto;
 import com.hust.rms.dto.table.*;
 import com.hust.rms.security.RmsUserPrincipal;
 import com.hust.rms.service.TableService;
@@ -11,7 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * HUST IT3180 RMS — Boundary endpoint cho Sơ đồ bàn & Khóa lạc quan @Version (UC-02, UC-06, UC-12).
+ * HUST IT3180 RMS — Boundary endpoint cho Sơ đồ bàn, Khóa lạc quan @Version, Chuyển & Gộp bàn (FR-04..07).
  */
 @RestController
 @RequestMapping("/api/v1/tables")
@@ -64,4 +65,24 @@ public class TableController {
     public DiningTableDto markTableCleaned(@PathVariable Long id) {
         return tableSvc.cleanTable(id);
     }
+
+    @PostMapping("/{id}/transfer")
+    @PreAuthorize("hasAnyRole('STAFF','ADMIN')")
+    public OrderDto relocateActiveOrder(
+            @PathVariable Long id,
+            @Valid @RequestBody TransferTableRequest payload,
+            @AuthenticationPrincipal RmsUserPrincipal actor
+    ) {
+        return tableSvc.transferTable(id, payload, actor);
+    }
+
+    @PostMapping("/merge")
+    @PreAuthorize("hasAnyRole('STAFF','ADMIN')")
+    public OrderDto consolidateGuestTables(
+            @Valid @RequestBody MergeTablesRequest payload,
+            @AuthenticationPrincipal RmsUserPrincipal actor
+    ) {
+        return tableSvc.mergeTables(payload, actor);
+    }
 }
+
