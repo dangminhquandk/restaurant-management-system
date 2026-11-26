@@ -34,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderService {
 
     private static final ZoneId RESTAURANT_ZONE = ZoneId.of("Asia/Ho_Chi_Minh");
+    private static final Instant MAX_QUERY_INSTANT = Instant.parse("9999-12-31T23:59:59Z");
 
     private final OrderRepository orderRepository;
     private final DiningTableRepository diningTableRepository;
@@ -84,9 +85,11 @@ public class OrderService {
         if (from != null && to != null && from.isAfter(to)) {
             throw new BadRequestException("INVALID_DATE_RANGE", "Ngày bắt đầu không được lớn hơn ngày kết thúc.");
         }
-        Instant fromInstant = from != null ? from.atStartOfDay(RESTAURANT_ZONE).toInstant() : null;
-        Instant toExclusive = to != null ? to.plusDays(1).atStartOfDay(RESTAURANT_ZONE).toInstant() : null;
-        return orderRepository.findOrderSummaries(status, fromInstant, toExclusive, method).stream()
+        Instant fromInstant = from != null ? from.atStartOfDay(RESTAURANT_ZONE).toInstant() : Instant.EPOCH;
+        Instant toExclusive = to != null ? to.plusDays(1).atStartOfDay(RESTAURANT_ZONE).toInstant() : MAX_QUERY_INSTANT;
+        return orderRepository.findOrderSummariesInWindow(fromInstant, toExclusive).stream()
+                .filter(o -> status == null || o.getStatus() == status)
+                .filter(o -> method == null || (o.getPayment() != null && o.getPayment().getMethod() == method))
                 .map(DtoMapper::toOrderSummaryDto)
                 .toList();
     }

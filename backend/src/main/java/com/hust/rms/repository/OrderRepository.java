@@ -51,17 +51,13 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             JOIN FETCH o.table
             JOIN FETCH o.staff
             LEFT JOIN FETCH o.payment p
-            WHERE (:status IS NULL OR o.status = :status)
-              AND (:fromInstant IS NULL OR o.createdAt >= :fromInstant)
-              AND (:toExclusive IS NULL OR o.createdAt < :toExclusive)
-              AND (:method IS NULL OR p.method = :method)
+            WHERE o.createdAt >= :fromInstant
+              AND o.createdAt < :toExclusive
             ORDER BY o.createdAt DESC, o.id DESC
             """)
-    List<Order> findOrderSummaries(
-            @Param("status") OrderStatus status,
+    List<Order> findOrderSummariesInWindow(
             @Param("fromInstant") Instant fromInstant,
-            @Param("toExclusive") Instant toExclusive,
-            @Param("method") PaymentMethod method
+            @Param("toExclusive") Instant toExclusive
     );
 
     Optional<Order> findByOrderCode(String orderCode);
