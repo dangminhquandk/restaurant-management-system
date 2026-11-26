@@ -37,14 +37,7 @@ import { formatVnd, matchesViSearch } from '../../utils/format';
 import { PaymentModal } from './PaymentModal';
 import { PrintableReceipt } from './PrintableReceipt';
 import { TableTransferMergeModal } from './TableTransferMergeModal';
-
-interface CartBatchLine {
-  menuItemId: number;
-  name: string;
-  unitPrice: number;
-  quantity: number;
-  note: string;
-}
+import { usePosCart } from './usePosCart';
 
 interface LocationState {
   prefetchedOrder?: OrderDto;
@@ -67,7 +60,16 @@ export function OrderPadPage() {
   const [menuItems, setMenuItems] = useState<MenuItemDto[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | 'ALL'>('ALL');
   const [searchQuery, setSearchQuery] = useState('');
-  const [cart, setCart] = useState<CartBatchLine[]>([]);
+  const {
+    cart,
+    cartQtyByMenuId,
+    totalCartQuantity,
+    newBatchSubtotal,
+    addDishToCart,
+    changeCartQty,
+    changeCartNote,
+    clearCart,
+  } = usePosCart();
 
   const [loading, setLoading] = useState(true);
   const [pageError, setPageError] = useState<string | null>(null);
@@ -197,14 +199,6 @@ export function OrderPadPage() {
     });
   }, [menuItems, selectedCategoryId, searchQuery]);
 
-  const cartQtyByMenuId = useMemo(() => {
-    const map = new Map<number, number>();
-    for (const line of cart) {
-      map.set(line.menuItemId, line.quantity);
-    }
-    return map;
-  }, [cart]);
-
   const menuAvailabilityMap = useMemo(() => {
     const map = new Map<number, boolean>();
     for (const item of menuItems) {
@@ -213,53 +207,19 @@ export function OrderPadPage() {
     return map;
   }, [menuItems]);
 
-  const newBatchSubtotal = useMemo(
-    () => cart.reduce((sum, line) => sum + line.unitPrice * line.quantity, 0),
-    [cart]
-  );
-
   const handleTapMenuItem = (item: MenuItemDto) => {
-    if (!item.isAvailable) return;
-    setSubmitError(null);
-    setCart((prev) => {
-      const existingIdx = prev.findIndex((line) => line.menuItemId === item.id);
-      if (existingIdx >= 0) {
-        return prev.map((line, idx) =>
-          idx === existingIdx
-            ? { ...line, quantity: Math.min(99, line.quantity + 1) }
-            : line
-        );
-      }
-      return [
-        ...prev,
-        {
-          menuItemId: item.id,
-          name: item.name,
-          unitPrice: item.price,
-          quantity: 1,
-          note: '',
-        },
-      ];
-    });
+    if (addDishToCart(item)) {
+      setSubmitError(null);
+    }
   };
 
   const handleChangeCartQty = (menuItemId: number, delta: number) => {
     setSubmitError(null);
-    setCart((prev) =>
-      prev
-        .map((line) =>
-          line.menuItemId === menuItemId
-            ? { ...line, quantity: Math.min(99, line.quantity + delta) }
-            : line
-        )
-        .filter((line) => line.quantity > 0)
-    );
+    changeCartQty(menuItemId, delta);
   };
 
   const handleChangeCartNote = (menuItemId: number, note: string) => {
-    setCart((prev) =>
-      prev.map((line) => (line.menuItemId === menuItemId ? { ...line, note } : line))
-    );
+    changeCartNote(menuItemId, note);
   };
 
   const handleSendBatchToKitchen = async () => {
@@ -276,7 +236,7 @@ export function OrderPadPage() {
         })),
       });
       setOrder(updatedOrder);
-      setCart([]);
+      clearCart();
       showToast({
         title: 'Đã gửi bếp thành công',
         message: `Đơn ${updatedOrder.orderCode} đã cập nhật lượt gọi món mới.`,
@@ -701,12 +661,12 @@ export function OrderPadPage() {
           <div className="border-t border-stone-200 pt-3.5 space-y-3">
             <div className="flex items-center justify-between">
               <h3 className="text-xs font-extrabold uppercase tracking-wider text-bistro">
-                Giỏ gọi thêm (Lượt mới • {cart.reduce((acc, l) => acc + l.quantity, 0)} phần)
+                Giỏ gọi thêm (Lượt mới • {totalCartQuantity} phần)
               </h3>
               {cart.length > 0 && (
                 <button
                   type="button"
-                  onClick={() => setCart([])}
+                  onClick={clearCart}
                   className="text-xs font-semibold text-stone-500 underline hover:text-rose-600"
                 >
                   Xóa giỏ tạm
